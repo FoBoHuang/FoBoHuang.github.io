@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Mysql,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言用两个表（a_table、b_table），关联字段a_table.a_id和b_table.b_id来演示一下MySQL的内连接、外连接（ 左(外)连接、右(外)连接、全(外)连接）。 MySQL版本：Server version: 5.6.31 MySQL Community Server (GPL) 数据库表：a_table、b_table 主题：内连接、左连接（左外连接）、右连接（右外">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql内连接、外连接、全连接">
+<meta property="og:url" content="https://FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/index.html">
+<meta property="og:site_name" content="凌晨四点的洛杉矶">
+<meta property="og:description" content="前言用两个表（a_table、b_table），关联字段a_table.a_id和b_table.b_id来演示一下MySQL的内连接、外连接（ 左(外)连接、右(外)连接、全(外)连接）。 MySQL版本：Server version: 5.6.31 MySQL Community Server (GPL) 数据库表：a_table、b_table 主题：内连接、左连接（左外连接）、右连接（右外">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql1.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql2.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql3.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql4.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql5.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql6.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql7.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql9.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql10.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql11.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql8.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql12.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql13.png">
+<meta property="og:updated_time" content="2019-03-18T15:41:42.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql内连接、外连接、全连接">
+<meta name="twitter:description" content="前言用两个表（a_table、b_table），关联字段a_table.a_id和b_table.b_id来演示一下MySQL的内连接、外连接（ 左(外)连接、右(外)连接、全(外)连接）。 MySQL版本：Server version: 5.6.31 MySQL Community Server (GPL) 数据库表：a_table、b_table 主题：内连接、左连接（左外连接）、右连接（右外">
+<meta name="twitter:image" content="https://fobohuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/">
+
+
+
+
+
+  <title>Mysql内连接、外连接、全连接 | 凌晨四点的洛杉矶</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凌晨四点的洛杉矶</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FoBoHuang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌晨四点的洛杉矶">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mysql内连接、外连接、全连接</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T22:31:38+08:00">
+                2019-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/18/Mysql内连接、外连接、全连接/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/18/Mysql内连接、外连接、全连接/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用两个表（a_table、b_table），关联字段a_table.a_id和b_table.b_id来演示一下MySQL的内连接、外连接（ 左(外)连接、右(外)连接、全(外)连接）。</p>
+<p>MySQL版本：Server version: 5.6.31 MySQL Community Server (GPL)</p>
+<p>数据库表：a_table、b_table</p>
+<p>主题：内连接、左连接（左外连接）、右连接（右外连接）、全连接（全外连接）、交叉连接</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><h3 id="建表语句："><a href="#建表语句：" class="headerlink" title="建表语句："></a>建表语句：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `a_table` (</span><br><span class="line">  `a_id` int(11) DEFAULT NULL,</span><br><span class="line">  `a_name` varchar(10) DEFAULT NULL,</span><br><span class="line">  `a_part` varchar(10) DEFAULT NULL</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `b_table` (</span><br><span class="line">  `b_id` int(11) DEFAULT NULL,</span><br><span class="line">  `b_name` varchar(10) DEFAULT NULL,</span><br><span class="line">  `b_part` varchar(10) DEFAULT NULL</span><br><span class="line">) ENGINE=InnoDB DEFAULT CHARSET=utf8</span><br></pre></td></tr></table></figure>
+<h3 id="表测试数据："><a href="#表测试数据：" class="headerlink" title="表测试数据："></a>表测试数据：</h3><p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql1.png" alt="mysql1"></p>
+<h2 id="内连接-等值连接"><a href="#内连接-等值连接" class="headerlink" title="内连接(等值连接)"></a>内连接(等值连接)</h2><p>关键字：inner join on</p>
+<p>语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a inner join b_table bon a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql2.png" alt="mysql2"></p>
+<p>说明：<strong>组合两个表中的记录，返回关联字段相符的记录，也就是返回两个表的交集（阴影）部分。</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql3.png" alt="mysql3"></p>
+<h2 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h2><p>关键字：left join on / left outer join on</p>
+<p>语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a left join b_table bon a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql4.png" alt="mysql4"></p>
+<p>说明：</p>
+<p>left join 是left outer join的简写，它的全称是左外连接，是外连接中的一种。</p>
+<p>左(外)连接，<strong>左表(a_table)的记录将会全部表示出来，而右表(b_table)只会显示符合搜索条件的记录，并且右表记录不足的地方均为NULL。</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql5.png" alt="mysql5"></p>
+<h2 id="右连接"><a href="#右连接" class="headerlink" title="右连接"></a>右连接</h2><p>关键字：right join on / right outer join on</p>
+<p>语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a right outer join b_table b on a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql6.png" alt="mysql6"></p>
+<p>说明：</p>
+<p>right join是right outer join的简写，它的全称是右外连接，是外连接中的一种。</p>
+<p>与左(外)连接相反，右(外)连接，<strong>左表(a_table)只会显示符合搜索条件的记录，而右表(b_table)的记录将会全部表示出来</strong>，并且左表记录不足的地方均为NULL。</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql7.png" alt="mysql7"></p>
+<h2 id="全连接"><a href="#全连接" class="headerlink" title="全连接"></a>全连接</h2><p>MySql不支持全连接查询，可以用union代替.</p>
+<p>为做全连接演示，所以在Oracle新建两张：</p>
+<p>表message1：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql9.png" alt="mysql9"></p>
+<p>表message2：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql10.png" alt="mysql10"></p>
+<p>关键字：FULL JOIN</p>
+<p>语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from message1 a</span><br><span class="line">FULL JOIN message2 b</span><br><span class="line">on a.id=b.id</span><br></pre></td></tr></table></figure>
+<p>查询结果如图所示：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql11.png" alt="mysql11"></p>
+<p>全连接的图片效果：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql8.png" alt="mysql8"></p>
+<p>总结：Full outer join展示的是a表和b表的全部信息(a和b的并集)。<strong>但需要注意的是，对于没有匹配的记录(即a.id和b.id没有一一对应的)，则会以null做为值。</strong>可以使用IF NULL判断。</p>
+<h2 id="交叉连接-笛卡尔积"><a href="#交叉连接-笛卡尔积" class="headerlink" title="交叉连接(笛卡尔积)"></a>交叉连接(笛卡尔积)</h2><ol>
+<li><p>不带where条件子句，它返回的是被连接的两个表的笛卡尔积，<strong>返回结果的行数等于两个表行数的乘积。</strong></p>
+<p>例如上表中：message1表的3条数据*message2表的4条数据，最后得到12条数据，就是下面笛卡尔积查询出来的总记录数。</p>
+<p>查询语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from message1 a</span><br><span class="line">cross JOIN message2 b</span><br></pre></td></tr></table></figure>
+<p>查询结果如图所示：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql12.png" alt="mysql12"></p>
+</li>
+<li><p>如果带where，<strong>返回或显示的是匹配条件成立的行数</strong>。</p>
+<p>查询语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select * from message1 a</span><br><span class="line">cross JOIN message2 b</span><br><span class="line">where</span><br><span class="line">a.id=b.id</span><br></pre></td></tr></table></figure>
+<p>查询结果如图所示：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql13.png" alt="mysql13"></p>
+<p>总结：<br>1.CROSS JOIN(笛卡尔积)是<strong>两个表每一个字段相互匹配，得出的结果就是笛卡尔积</strong>。笛卡尔积也等同于交叉连接。</p>
+<p>2.CROSS JOIN(笛卡尔积)带条件查询， 查询结果跟等值连接(也叫内连接)、where连接的查询结果是一样，并且后面加条件只能用where，不能用on。</p>
+</li>
+</ol>
+<h2 id="部分JOIN连接简单优化"><a href="#部分JOIN连接简单优化" class="headerlink" title="部分JOIN连接简单优化"></a>部分JOIN连接简单优化</h2><p>部分指的是：inner join、left join和right join</p>
+<p><strong>优化方法：</strong></p>
+<p>a.找出驱动表和被驱动表，在被驱动表上建立索引，可提高连接性能。<br>b.内连接inner join和左连接left join差不多,都需要优化右表。而右连接right join需要优化左表。<br><strong>比较：</strong><br>左连接和内连接优于右连接，左连接和内连接的比较取决于需求，单纯看性能是差不多的。</p>
+<p><strong>备注：</strong><br>索引一般为（主键、唯一索引、前缀索引等）<br>左连接left join中，左表为驱动表，右表为被驱动表；右连接right join中，右表为驱动表，左表为被驱动表。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/plg17/article/details/78758593" target="_blank" rel="noopener">https://blog.csdn.net/plg17/article/details/78758593</a></p>
+<p><a href="https://blog.csdn.net/qq_39629277/article/details/82882004" target="_blank" rel="noopener">https://blog.csdn.net/qq_39629277/article/details/82882004</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>秉持初心，继续向前。</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="FoBoHuang 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="FoBoHuang 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/error、exception、throwable/" rel="next" title="error、exception、throwable">
+                <i class="fa fa-chevron-left"></i> error、exception、throwable
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/Spring之声明式事务管理/" rel="prev" title="Spring之声明式事务管理">
+                Spring之声明式事务管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="FoBoHuang">
+            
+              <p class="site-author-name" itemprop="name">FoBoHuang</p>
+              <p class="site-description motion-element" itemprop="description">乌云后面依然是灿烂的晴天。——朗弗罗</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FoBoHuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提"><span class="nav-number">2.</span> <span class="nav-text">前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建表语句："><span class="nav-number">2.1.</span> <span class="nav-text">建表语句：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表测试数据："><span class="nav-number">2.2.</span> <span class="nav-text">表测试数据：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内连接-等值连接"><span class="nav-number">3.</span> <span class="nav-text">内连接(等值连接)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#左连接"><span class="nav-number">4.</span> <span class="nav-text">左连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#右连接"><span class="nav-number">5.</span> <span class="nav-text">右连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全连接"><span class="nav-number">6.</span> <span class="nav-text">全连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉连接-笛卡尔积"><span class="nav-number">7.</span> <span class="nav-text">交叉连接(笛卡尔积)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部分JOIN连接简单优化"><span class="nav-number">8.</span> <span class="nav-text">部分JOIN连接简单优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FoBoHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'FoBoHuang',
+            repo: 'FoBoHuang-gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a763f3599c9fb2007ef0bbca66d2b3c39333286b',
+            
+                client_id: 'c3e501c8c072f1bacaab'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '9xUUTOHjWlX7WvJiKb5cmYmD-gzGzoHsz',
+        appKey: 'zxkH0ow2tgRPWt5u3hg96bIS',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring IOCIOC原理IOC的意思是控件反转也就是由容器控制程序之间的关系，这也是spring的优点所在，把控件权交给了外部容器。之前的写法，由程序代码直接操控，而现在控制权由应用代码中转到了外部容器。控制权的转移是所谓反转。换句话说之前用new的方式获取对象，现在由Spring给你，至于怎么给你就是DI了。 什么是DI机制(依赖注入)这里说DI又要说到IOC，依赖注入（Dependecy">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring IOC和Spring AOP">
+<meta property="og:url" content="https://FoBoHuang.github.io/2019/03/02/Spring IOC和Spring AOP/index.html">
+<meta property="og:site_name" content="凌晨四点的洛杉矶">
+<meta property="og:description" content="Spring IOCIOC原理IOC的意思是控件反转也就是由容器控制程序之间的关系，这也是spring的优点所在，把控件权交给了外部容器。之前的写法，由程序代码直接操控，而现在控制权由应用代码中转到了外部容器。控制权的转移是所谓反转。换句话说之前用new的方式获取对象，现在由Spring给你，至于怎么给你就是DI了。 什么是DI机制(依赖注入)这里说DI又要说到IOC，依赖注入（Dependecy">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/02/Spring%20IOC和Spring%20AOP/aop1.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/03/02/Spring%20IOC和Spring%20AOP/aop2.jpg">
+<meta property="og:updated_time" content="2019-03-21T16:22:53.684Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring IOC和Spring AOP">
+<meta name="twitter:description" content="Spring IOCIOC原理IOC的意思是控件反转也就是由容器控制程序之间的关系，这也是spring的优点所在，把控件权交给了外部容器。之前的写法，由程序代码直接操控，而现在控制权由应用代码中转到了外部容器。控制权的转移是所谓反转。换句话说之前用new的方式获取对象，现在由Spring给你，至于怎么给你就是DI了。 什么是DI机制(依赖注入)这里说DI又要说到IOC，依赖注入（Dependecy">
+<meta name="twitter:image" content="https://fobohuang.github.io/2019/03/02/Spring%20IOC和Spring%20AOP/aop1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://FoBoHuang.github.io/2019/03/02/Spring IOC和Spring AOP/">
+
+
+
+
+
+  <title>Spring IOC和Spring AOP | 凌晨四点的洛杉矶</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凌晨四点的洛杉矶</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://FoBoHuang.github.io/2019/03/02/Spring IOC和Spring AOP/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FoBoHuang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌晨四点的洛杉矶">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring IOC和Spring AOP</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T19:16:33+08:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/Spring/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/02/Spring IOC和Spring AOP/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/02/Spring IOC和Spring AOP/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h2><h3 id="IOC原理"><a href="#IOC原理" class="headerlink" title="IOC原理"></a>IOC原理</h3><p>IOC的意思是<strong>控件反转也就是由容器控制程序之间的关系</strong>，这也是spring的优点所在，把控件权交给了外部容器。<strong>之前的写法，由程序代码直接操控，而现在控制权由应用代码中转到了外部容器</strong>。控制权的转移是所谓反转。<strong>换句话说之前用new的方式获取对象，现在由Spring给你，至于怎么给你就是DI了。</strong></p>
+<h3 id="什么是DI机制-依赖注入"><a href="#什么是DI机制-依赖注入" class="headerlink" title="什么是DI机制(依赖注入)"></a>什么是DI机制(依赖注入)</h3><p>这里说DI又要说到IOC，依赖注入（Dependecy Injection）和控制反转（Inversion of Control）是同一个概念。具体的讲：当某个角色需要另外一个角色协助的时候，在传统的程序设计过程中，通常由调用者来创建被调用者的实例。但是<strong>在Spring中 创建被调用者的工作不再由调用者来完成，因此称为控制反转。</strong>在Spring中创建被调用者的工作由Spring来完成，然后注入调用者 因此也称为依赖注入。</p>
+<p><strong>Spring以动态灵活的方式来管理对象 ， 注入的四种方式：</strong></p>
+<ol>
+<li><p>构造方法注入</p>
+</li>
+<li><p>注解注入</p>
+</li>
+<li><p>setter注入</p>
+<p>注意：<strong>如果通过set方法注入属性，那么spring会通过默认的空参构造方法来实例化对象，所以如果在类中写了一个带有参数的构造方法，一定要把空参数的构造方法写上，否则spring没有办法实例化对象，导致报错。</strong></p>
+</li>
+</ol>
+<h2 id="IOC的实现原理"><a href="#IOC的实现原理" class="headerlink" title="IOC的实现原理"></a>IOC的实现原理</h2><h3 id="Java反射机制"><a href="#Java反射机制" class="headerlink" title="Java反射机制"></a>Java反射机制</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p>我们考虑一个场景，如果我们在程序运行时，一个对象想要检视自己所拥有的成员属性，该如何操作？</p>
+<p>再考虑另一个场景，如果我们想要<strong>在运行期获得某个类的Class信息如它的属性、构造方法、一般方法后再考虑是否创建它的对象</strong>，这种情况该怎么办呢？这就需要用到反射！</p>
+<p>对于反射，<strong>官方给出的概念</strong>：反射是<a href="https://www.baidu.com/s?wd=Java%E8%AF%AD%E8%A8%80&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">Java语言</a>的一个特性，它允许程序<strong>在运行时（注意不是编译的时候）来进行自我检查并且对内部的成员进行操作</strong>。例如它允许一个Java类获取它所有的成员变量和方法并且显示出来。</p>
+<p>反射主要是指程序可以<strong>访问，检测和修改</strong>它本身状态或行为的一种能力，并能根据自身行为的状态和结果，调整或修改应用所描述行为的状态和相关的语义。<strong>在Java中，只要给定类的名字，那么就可以通过反射机制来获得类的所有信息。</strong></p>
+<p>反射是Java中一种强大的工具，能够使我们很方便的创建灵活的代码，这些代码可以在运行时装配，无需在组件之间进行源代码链接。但是如果反射使用不当会导致高成本！类中有什么信息，<strong>利用反射机制就能可以获得什么信息，不过前提是得知道类的名字</strong>。</p>
+<h4 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h4><ol>
+<li>在运行时判断任意一个对象所属的类；</li>
+<li>在运行时<strong>获取类的对象</strong>；</li>
+<li>在运行时<strong>访问java对象的属性，方法，构造方法等。</strong></li>
+</ol>
+<p>首先要搞清楚为什么要用反射机制？直接创建对象不就可以了吗，这就涉及到了动态与静态的概念。</p>
+<p>静态编译：在编译时确定类型，绑定对象，即通过。</p>
+<p>动态编译：<strong>运行时确定类型，绑定对象</strong>。动态编译最大限度发挥了Java的灵活性，体现了多态的应用，有以降低类之间的藕合性。</p>
+<h4 id="反射机制的深度解析"><a href="#反射机制的深度解析" class="headerlink" title="反射机制的深度解析"></a>反射机制的深度解析</h4><p>Java的反射机制的实现要借助于4个类：class，Constructor，Field，Method；</p>
+<p>Class：类对象，<br>Constructor－类的构造器对象，<br>Field－类的属性对象，<br>Method－类的方法对象。</p>
+<p>Class反射对象<strong>描述类语义结构，可以从Class对象中获取构造函数、成员变量、方法类等类元素的反射对象，并以编程的方式通过这些反射对象对目标类对象进行操作。</strong>这些反射对象类在java.reflect包中定义，下面是最主要的三个反射类： </p>
+<ul>
+<li><p>Constructor：类的构造函数反射类</p>
+<p>通过<strong>Class.getDeclaredConstructors()</strong>方法可以获得类的所有构造函数反射对象数组。</p>
+<p>在JDK5.0中，还可以通过<strong>getDeclaredConstructor(Class… parameterTypes)</strong>获取拥有特定入参的构造函数反射对象。</p>
+<p>Constructor的一个主要方法是<strong>newInstance(Object[] initargs)</strong>，通过该方法可以创建一个对象类的实例，相当于new关键字。在JDK5.0中该方法演化为更为灵活的形式：newInstance (Object… initargs)。</p>
+</li>
+<li><p>Method：类方法的反射类</p>
+<p>通过<strong>Class.getDeclaredMethods()</strong>方法可以获取类的所有方法反射类对象数组Method[]。</p>
+<p>在JDK5.0中可以通过<strong>getDeclaredMethod(String name, Class… parameterTypes)</strong>获取特定方法，<strong>name为方法名，Class…为方法入参类型列表。</strong></p>
+<p><strong>Method最主要的方法是invoke(Object obj, Object[] args)，obj表示操作的目标对象，args为方法入参。</strong></p>
+</li>
+<li><p>Field：类的成员变量的反射类</p>
+<p>通过<strong>Class.getDeclaredFields()</strong>方法可以获取类的成员变量反射对象数组</p>
+<p>通过<strong>Class.getDeclaredField(String name)</strong>则可获取某个特定名称的成员变量反射对象。</p>
+<p>Field类最主要的方法是set(Object obj, Object value)，obj表示操作的目标对象，通过value为目标对象的成员变量设置值。如果成员变量为基础类型，用户可以使用Field类中提供的带类型名的值设置方法，比如setBoolean(Object obj, boolean value)、setInt(Object obj, int value)等。</p>
+</li>
+</ul>
+<h4 id="基本运用"><a href="#基本运用" class="headerlink" title="基本运用"></a>基本运用</h4><ol>
+<li><p>获取<strong>Class对象</strong></p>
+<ul>
+<li><p>使用 Class 类的 <code>forName</code> 静态方法:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Class&lt;?&gt; forName(String className)</span><br><span class="line">``` </span><br><span class="line">比如在 JDBC 开发中常用此方法加载数据库驱动:</span><br><span class="line"> Class.forName(driver);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>直接获取某一个对象的 class，比如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; klass = <span class="keyword">int</span>.class;</span><br><span class="line">Class&lt;?&gt; classInt = Integer.TYPE;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用某个对象的 <code>getClass()</code> 方法，比如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder str = <span class="keyword">new</span> StringBuilder(<span class="string">"123"</span>);</span><br><span class="line">Class&lt;?&gt; klass = str.getClass();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>判断是否为某个类的实例</p>
+<p>一般地，我们用 <code>instanceof</code> 关键字来判断是否为某个类的实例。同时我们也可以借助反射中 Class 对象的 <code>isInstance()</code> 方法来判断是否为某个类的实例，它是一个 native 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">boolean</span> <span class="title">isInstance</span><span class="params">(Object obj)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建<strong>实例对象</strong></p>
+<ul>
+<li><p>使用Class对象的newInstance()方法来创建Class对象对应类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; c = String.class;</span><br><span class="line">Object str = c.newInstance();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>先通过Class对象获取指定的Constructor对象，再调用Constructor对象的newInstance()方法来创建实例。这种方法可以用指定的构造器构造类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取String所对应的Class对象</span></span><br><span class="line">Class&lt;?&gt; c = String.class;</span><br><span class="line"><span class="comment">//获取String类带一个String参数的构造器</span></span><br><span class="line">Constructor constructor = c.getConstructor(String.class);</span><br><span class="line"><span class="comment">//根据构造器创建实例</span></span><br><span class="line">Object obj = constructor.newInstance(<span class="string">"23333"</span>);</span><br><span class="line">System.out.println(obj);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>获取<strong>方法</strong></p>
+<p>获取某个Class对象的方法集合，主要有以下几个方法：</p>
+<ul>
+<li><code>getDeclaredMethods</code> 方法返回类或接口声明的所有方法，包括公共、保护、默认（包）访问和私有方法，但<strong>不包括继承的方法</strong>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Method[] getDeclaredMethods() <span class="keyword">throws</span> SecurityException</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>getMethods</code> 方法返回某个类的所有公用（public）方法，<strong>包括其继承类的公用方法</strong>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Method[] getMethods() <span class="keyword">throws</span> SecurityException</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>getMethod</code> 方法返回一个特定的方法，其中第一个参数为方法名称，后面的参数为方法的参数对应Class的对象。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Method <span class="title">getMethod</span><span class="params">(String name, Class&lt;?&gt;... parameterTypes)</span></span></span><br></pre></td></tr></table></figure>
+<p>例子如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.ScZyhSoft.common;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException </span>&#123;</span><br><span class="line">	        Class&lt;?&gt; c = methodClass.class;</span><br><span class="line">	        Object object = c.newInstance();</span><br><span class="line">	        Method[] methods = c.getMethods();</span><br><span class="line">	        Method[] declaredMethods = c.getDeclaredMethods();</span><br><span class="line">	        <span class="comment">//获取methodClass类的add方法</span></span><br><span class="line">	        Method method = c.getMethod(<span class="string">"add"</span>, <span class="keyword">int</span>.class, <span class="keyword">int</span>.class);</span><br><span class="line">	        <span class="comment">//getMethods()方法获取的所有方法</span></span><br><span class="line">	        System.out.println(<span class="string">"getMethods获取的方法："</span>);</span><br><span class="line">	        <span class="keyword">for</span>(Method m:methods)</span><br><span class="line">	            System.out.println(m);</span><br><span class="line">	        <span class="comment">//getDeclaredMethods()方法获取的所有方法</span></span><br><span class="line">	        System.out.println(<span class="string">"getDeclaredMethods获取的方法："</span>);</span><br><span class="line">	        <span class="keyword">for</span>(Method m:declaredMethods)</span><br><span class="line">	            System.out.println(m);</span><br><span class="line">	    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">methodClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> fuck = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>程序的运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">getMethods获取的方法：</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> org.ScZyhSoft.common.methodClass.add(<span class="keyword">int</span>,<span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> org.ScZyhSoft.common.methodClass.sub(<span class="keyword">int</span>,<span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> java.lang.Object.wait() <span class="keyword">throws</span> java.lang.InterruptedException</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> java.lang.Object.wait(<span class="keyword">long</span>,<span class="keyword">int</span>) <span class="keyword">throws</span> java.lang.InterruptedException</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> java.lang.Object.wait(<span class="keyword">long</span>) <span class="keyword">throws</span> java.lang.InterruptedException</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> java.lang.Object.equals(java.lang.Object)</span><br><span class="line"><span class="keyword">public</span> java.lang.String java.lang.Object.toString()</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> java.lang.Object.hashCode()</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> java.lang.Class java.lang.Object.getClass()</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> java.lang.Object.notify()</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> java.lang.Object.notifyAll()</span><br><span class="line">getDeclaredMethods获取的方法：</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> org.ScZyhSoft.common.methodClass.add(<span class="keyword">int</span>,<span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">int</span> org.ScZyhSoft.common.methodClass.sub(<span class="keyword">int</span>,<span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取<strong>构造器信息</strong></p>
+<p>获取类构造器的用法与上述获取方法的用法类似。主要是通过Class类的getConstructor方法得到Constructor类的一个实例，而Constructor类有一个newInstance方法可以创建一个对象实例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">newInstance</span><span class="params">(Object ... initargs)</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取<strong>类的成员变量信息</strong></p>
+<p>主要是这几个方法，在此不再赘述：</p>
+<ul>
+<li><code>getFiled</code>：访问公有的成员变量</li>
+<li><code>getDeclaredField</code>：所有已声明的成员变量，但不能得到其父类的成员变量</li>
+</ul>
+<p><code>getFileds</code> 和 <code>getDeclaredFields</code> 方法用法同上（参照 Method）</p>
+</li>
+<li><p><strong>调用方法</strong></p>
+<p>当我们从类中获取了一个方法后，我们就可以用 <code>invoke()</code> 方法来调用这个方法。<code>invoke</code> 方法的原型为:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object obj, Object... args)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> IllegalAccessException, IllegalArgumentException,</span></span><br><span class="line"><span class="function">           InvocationTargetException</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!override) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!Reflection.quickCheckMemberAccess(clazz, modifiers)) &#123;</span><br><span class="line">                Class&lt;?&gt; caller = Reflection.getCallerClass();</span><br><span class="line">                checkAccess(caller, clazz, obj, modifiers);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        MethodAccessor ma = methodAccessor;             <span class="comment">// read volatile</span></span><br><span class="line">        <span class="keyword">if</span> (ma == <span class="keyword">null</span>) &#123;</span><br><span class="line">            ma = acquireMethodAccessor();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ma.invoke(obj, args);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException </span>&#123;</span><br><span class="line">        Class&lt;?&gt; klass = methodClass.class;</span><br><span class="line">        <span class="comment">//创建methodClass的实例</span></span><br><span class="line">        Object obj = klass.newInstance();</span><br><span class="line">        <span class="comment">//获取methodClass类的add方法</span></span><br><span class="line">        Method method = klass.getMethod(<span class="string">"add"</span>,<span class="keyword">int</span>.class,<span class="keyword">int</span>.class);</span><br><span class="line">        <span class="comment">//调用method对应的方法 =&gt; add(1,4)</span></span><br><span class="line">        Object result = method.invoke(obj,<span class="number">1</span>,<span class="number">4</span>);</span><br><span class="line">        System.out.println(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">methodClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> fuck = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">sub</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="IOC容器技术剖析"><a href="#IOC容器技术剖析" class="headerlink" title="IOC容器技术剖析"></a>IOC容器技术剖析</h4><p>IOC中最基本的技术就是“反射(Reflection)”编程，通俗来讲就是<strong>根据给出的类名（字符串方式）来动态地生成对象，这种编程方式可以让对象在生成时才被决定到底是哪一种对象</strong>。只是在Spring中要生产的对象都在配置文件中给出定义，目的就是提高灵活性和可维护性。</p>
+<p>目前C#、Java和PHP5等语言均支持反射，其中PHP5的技术书籍中，有时候也被翻译成“映射”。有关反射的概念和用法，大家应该都很清楚。反射的应用是很广泛的，很多的成熟的框架，比如像Java中的Hibernate、Spring框架，.Net中NHibernate、Spring.NET框架都是把”反射“做为最基本的技术手段。</p>
+<p>我们可以<strong>把IOC容器的工作模式看做是工厂模式的升华，可以把IOC容器看作是一个工厂，这个工厂里要生产的对象都在配置文件中给出定义，然后利用编程语言提供的反射机制，根据配置文件中给出的类名生成相应的对象</strong>。从实现来看，IOC是把以前在工厂方法里写死的对象生成代码，改变为由配置文件来定义，也就是把工厂和对象生成这两者独立分隔开来，目的就是提高灵活性和可维护性。</p>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><h2 id="Spring-AOP"><a href="#Spring-AOP" class="headerlink" title="Spring AOP"></a>Spring AOP</h2><h3 id="什么是AOP？"><a href="#什么是AOP？" class="headerlink" title="什么是AOP？"></a>什么是AOP？</h3><p>面向切面编程（AOP）完善Spring的依赖注入（DI），面向切面编程在spring中主要表现为两个方面：</p>
+<ol>
+<li>面向切面编程<strong>提供声明式事务管理</strong></li>
+<li>Spring支持<strong>用户自定义的切面</strong></li>
+</ol>
+<p>面向切面编程（aop）是对面向对象编程（oop）的补充。</p>
+<p>面向对象编程将程序分解成各个层次的对象，面向切面编程<strong>将程序运行过程分解成各个切面。</strong></p>
+<p>AOP<strong>从程序运行角度</strong>考虑程序的结构，提取<strong>业务处理过程</strong>的切面，oop是静态的抽象，aop是动态的抽象， 是<strong>对应用执行过程中的步骤进行抽象，从而获得步骤之间的逻辑划分。</strong></p>
+<p><strong>具体使用场景：</strong></p>
+<ol>
+<li>Authentication：权限</li>
+<li>Caching：缓存</li>
+<li>Context passing：内容传递</li>
+<li>Error handling：错误处理</li>
+<li>Lazy loading：懒加载</li>
+<li>Debugging：调试</li>
+<li>logging, tracing, profiling and monitoring：记录跟踪　优化　校准</li>
+<li>Performance optimization：性能优化</li>
+<li>Persistence：持久化</li>
+<li>Resource pooling：资源池</li>
+<li>Synchronization：同步</li>
+<li>Transactions：事务</li>
+</ol>
+<h3 id="使用AOP需要的一些概念"><a href="#使用AOP需要的一些概念" class="headerlink" title="使用AOP需要的一些概念"></a>使用AOP需要的一些概念</h3><ul>
+<li>Aspect（切面）：Aspect 声明类似于 Java 中的类声明，在 Aspect 中会包含着一些 Pointcut 以及相应Advice。</li>
+<li>Joint point（连接点）：表示在程序中明确定义的点，典型的<strong>包括方法调用，对类成员的访问以及异常处理程序块的执行等等</strong>，它自身还可以嵌套其它 joint point。</li>
+<li>Pointcut（切点）：<strong>表示一组 joint point</strong>，这些 joint point 或是通过逻辑关系组合起来，或是通过通配、正则表达式等方式集中起来，它定义了相应的 Advice 将要发生的地方。</li>
+<li>Advice（增强）：Advice 定义了在 Pointcut 里面定义的程序点具体要做的操作，它通过 before、after 和around 来区别是在每个 joint point 之前、之后还是代替执行的代码。</li>
+<li>Target（目标对象）：织入 Advice 的目标对象.，即<strong>被代理类</strong>。</li>
+<li>Weaving（织入）：将 Aspect 和其他对象连接起来, 并创建 Adviced object 的过程。</li>
+</ul>
+<p>1.通知(Advice)</p>
+<p><strong>通知定义了在切入点代码执行时间点附近需要做的工作。</strong></p>
+<p>Spring支持五种类型的通知：</p>
+<ol>
+<li>Before(前)  org.apringframework.aop.MethodBeforeAdvice</li>
+<li>After-returning(返回后) org.springframework.aop.AfterReturningAdvice</li>
+<li>After-throwing(抛出后) org.springframework.aop.ThrowsAdvice</li>
+<li>Arround(周围) org.aopaliance.intercept.MethodInterceptor</li>
+<li>Introduction(引入) org.springframework.aop.IntroductionInterceptor</li>
+</ol>
+<p>2.连接点(Joinpoint)</p>
+<p><strong>程序能够应用通知的一个“时机”，这些“时机”就是连接点，例如方法调用时、异常抛出时、方法返回后等等。</strong></p>
+<p>3.切入点(Pointcut)</p>
+<p><strong>通知定义了切面要发生的“故事”，连接点定义了“故事”发生的时机，那么切入点就定义了“故事”发生的地点</strong>。例如<strong>某个类或方法的名称</strong>，Spring中允许我们方便的用正则表达式来指定。</p>
+<p>4.切面(Aspect)</p>
+<p>通知、连接点、切入点共同组成了切面：时间、地点和要发生的“故事”。</p>
+<p>5.引入(Introduction)</p>
+<p>引入允许我们向现有的类添加新的方法和属性(Spring提供了一个方法注入的功能）。</p>
+<p>6.目标(Target)</p>
+<p>即被通知的对象，如果没有AOP，那么通知的逻辑就要写在目标对象中，有了AOP之后它可以只关注自己要做的事，解耦合！</p>
+<p>7.代理(proxy)</p>
+<p>应用通知的对象，详细内容参见设计模式里面的动态代理模式。</p>
+<p>8.织入(Weaving)</p>
+<p>把切面应用到目标对象来创建新的代理对象的过程，织入一般发生在如下几个时机:</p>
+<p>(1)编译时：当一个类文件被编译时进行织入，这需要特殊的编译器才可以做的到，例如AspectJ的织入编译器；</p>
+<p>(2)类加载时：使用特殊的ClassLoader在目标类被加载到程序之前增强类的字节代码；</p>
+<p>(3)运行时：切面在运行的某个时刻被织入,SpringAOP就是以这种方式织入切面的，原理应该是使用了JDK的动态代理技术。</p>
+<h3 id="Spring-AOP的实现机制"><a href="#Spring-AOP的实现机制" class="headerlink" title="Spring AOP的实现机制"></a>Spring AOP的实现机制</h3><p><img src="//FoBoHuang.github.io/2019/03/02/Spring IOC和Spring AOP/aop1.png" alt="aop1"></p>
+<p><strong>Spring AOP中的动态代理主要有两种方式，JDK动态代理和CGLIB动态代理。</strong></p>
+<p>JDK动态代理通过反射来接收被代理的类，并且<strong>要求被代理的类必须实现一个接口。</strong>JDK动态代理的核心是<code>InvocationHandler</code>接口和<code>Proxy</code>类。如果目标类没有实现接口，那么Spring AOP会选择使用CGLIB来动态代理目标类。</p>
+<p>CGLIB（Code Generation Library），是一个代码生成的类库，可以在运行时动态的生成某个类的子类，注意，CGLIB是通过继承的方式做的动态代理，因此<strong>如果某个类被标记为<code>final</code>，那么它是无法使用CGLIB做动态代理的。</strong></p>
+<p>下面我们来了解一下什么是代理模式？</p>
+<h4 id="代理模式介绍"><a href="#代理模式介绍" class="headerlink" title="代理模式介绍"></a>代理模式介绍</h4><p>什么是代理模式？就是用一个新的对象来伪装原来的对象，从而实现一些“不可告人”的动作。</p>
+<p>什么情况下会使用代理模式？简单来说，就是不能或者不想直接引用一个对象。什么是不能？比如我在内网中想访问外网的资源，但是因为网关的控制，访问不了。那什么是不想呢？比如我在网页上要显示一张图片，但是图片太大了，会拉慢页面的加载速度，我想用一张小一点的图片代替。</p>
+<p>来看一张类结构图：</p>
+<p><img src="//FoBoHuang.github.io/2019/03/02/Spring IOC和Spring AOP/aop2.jpg" alt="aop2"></p>
+<ul>
+<li>Subject：原对象的抽象</li>
+<li>RealSubject：原对象的实现</li>
+<li>Proxy： 代理对象</li>
+</ul>
+<p>通过代理模式，客户端访问时同原来一样，但访问的前后已经做了额外的操作(可能你的信息和数据就被窃取了)。</p>
+<p>好了，来看一个正常点的例子。做IT的一般都需要翻墙，比如去YouTube上看点MV啥的(说好的正常呢)，但是正常访问肯定是要被屏蔽的，所以就要通过一些工具去穿过重重防守的GTW。一般的方式就是本地的工具将你的访问信息加密后，交给一个未被屏蔽的国外的服务器，然后服务器解密这些访问信息，去请求原始的访问地址，再将请求得到的资源和信息回传给你自己的本地。我们以浏览器来举例。</p>
+<blockquote>
+<p>浏览器接口：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Browser</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">visitInternet</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Chrome的实现类：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChromeBrowser</span> <span class="keyword">implements</span> <span class="title">Browser</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitInternet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"visit YouTube"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果直接访问肯定是要挂掉的，我们通过解密和加密的两个方法简单模拟翻墙的过程。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChromeBrowser</span> <span class="keyword">implements</span> <span class="title">Browser</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitInternet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		encrypt();</span><br><span class="line">		System.out.println(<span class="string">"visit YouTube"</span>);</span><br><span class="line">		decrypt();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 加密</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"encrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 解密</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"decrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>总结：虽然这样就可以访问成功了，但直接将加密和解密的方式写死在原对象里，不仅侵入了原有的代码结构且会显得很LOW。</strong></p>
+<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><blockquote>
+<p>根据上面的代理模式的类图，最简单的方式就是写一个静态代理，为ChromeBrowser写一个代理类。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChromeBrowserProxy</span> <span class="keyword">implements</span> <span class="title">Browser</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> ChromeBrowser browser;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ChromeBrowserProxy</span><span class="params">(ChromeBrowser chromeBrowser)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.browser = chromeBrowser;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">visitInternet</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		encrypt();</span><br><span class="line">		browser.visitInternet();</span><br><span class="line">		decrypt();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 加密</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"encrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 解密</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"decrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ChromeBrowserProxy同样实现Browser接口，客户端访问时不再直接访问ChromeBrowser，而是通过它的代理类。</p>
+</blockquote>
+<blockquote>
+<p>下面是静态代理的测试类：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticProxyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Browser browser = <span class="keyword">new</span> ChromeBrowserProxy(<span class="keyword">new</span> ChromeBrowser());</span><br><span class="line">		browser.visitInternet();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>总结：这种方式解决了对原对象的代码侵入，但是出现了另一个问题。如果我有好几个浏览器，难道每个浏览器的实现类都要写一个代理类吗？太LOW太LOW。我们需要更牛B的方式：JDK动态代理。</strong></p>
+<h4 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h4><p>在JDK中提供了一种代理的实现方式，可以<strong>动态地创建代理类</strong>，就是<strong>java.lang.reflect包中的Proxy类提供的newProxyInstance方法。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Proxy.newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>classLoader是<strong>创建代理类的类加载器</strong></li>
+<li>interfaces是<strong>原对象实现的接口</strong></li>
+<li>InvocationHandler是<strong>回调方法的接口</strong></li>
+</ul>
+<p><strong>真正的代理过程通过InvocationHandler接口中的invoke方法来实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>proxy是<strong>代理对象</strong></li>
+<li>method是<strong>执行的方法</strong></li>
+<li>args是<strong>执行方法的参数数组</strong></li>
+</ul>
+<blockquote>
+<p>还是以Chrome浏览器举例，JdkBrowserProxy实现InvocationHandler接口，并通过构造方法传入被代理的对象，然后在invoke方法中实现代理的过程。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdkBrowserProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Browser browser;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">JdkBrowserProxy</span><span class="params">(Browser browser)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.browser = browser;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Browser <span class="title">getProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (Browser) Proxy.newProxyInstance(browser.getClass().getClassLoader(),</span><br><span class="line">				browser.getClass().getInterfaces(), <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		encrypt();<span class="comment">// 程序执行前加入逻辑，MethodBeforeAdviceInterceptor</span></span><br><span class="line">		Object retVal = method.invoke(browser, args);</span><br><span class="line">		decrypt();<span class="comment">// 程序执行后加入逻辑，MethodAfterAdviceInterceptor</span></span><br><span class="line">		<span class="keyword">return</span> retVal;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 加密</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"encrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 解密</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"decrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>来看测试方法：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdkDynamicProxyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Browser browser = <span class="keyword">new</span> JdkBrowserProxy(<span class="keyword">new</span> ChromeBrowser()).getProxy();</span><br><span class="line">		browser.visitInternet();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>总结：JDK的动态代理基本能够解决大部分的需求，唯一的缺点就是它只能代理接口中的方法。如果被代理对象没有实现接口，或者想代理没在接口中定义的方法，JDK的动态代理就无能为力了，此时就需要CGLIB动态代理。</strong></p>
+<h4 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h4><p>cglib是一种强大的，高性能高品质的代码生成库，用来在运行时扩展JAVA的类以及实现指定接口。</p>
+<p><strong>通过cglib提供的Enhancer类的create静态方法来创建代理类。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enhancer.create(Class type, Callback callback)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>type是<strong>原对象的Class对象</strong></li>
+<li>callback是<strong>回调方法接口</strong></li>
+</ul>
+<p><strong>cglib中的callback通过实现它的MethodInterceptor接口的intercept方法来进行回调：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, java.lang.reflect.Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>obj是<strong>被代理的对象</strong></li>
+<li>method是<strong>执行的方法</strong></li>
+<li>args是<strong>执行方法的参数数组</strong></li>
+<li><strong>proxy用来执行未被拦截的原方法</strong></li>
+</ul>
+<blockquote>
+<p>cglib代理类不局限于上面的浏览器的例子，而是通过泛型来实现通用，并且使用单例模式减少代理类的重复创建。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibBrowserProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CglibBrowserProxy proxy = <span class="keyword">new</span> CglibBrowserProxy();</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">CglibBrowserProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">//获取静态实例的方法</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CglibBrowserProxy <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> proxy;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">(Class&lt;T&gt; clazz)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (T) Enhancer.create(clazz, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		encrypt();<span class="comment">// 程序执行前加入逻辑，MethodBeforeAdviceInterceptor</span></span><br><span class="line">		Object retVal = proxy.invokeSuper(obj, args);</span><br><span class="line">		decrypt();<span class="comment">// 程序执行后加入逻辑，MethodAfterAdviceInterceptor</span></span><br><span class="line">		<span class="keyword">return</span> retVal;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 加密</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">encrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"encrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 解密</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">decrypt</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"decrypt ..."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>然后在ChromeBrowser添加一个听音乐的方法，它并未在Browser接口定义：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">listenToMusic</span><span class="params">()</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"listen to Cranberries"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>来看下客户端测试：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibDynamicProxyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		ChromeBrowser browser = CglibBrowserProxy.getInstance().getProxy(ChromeBrowser.class);</span><br><span class="line">		browser.visitInternet();</span><br><span class="line">		browser.listenToMusic();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总结：可以发现没有使用Browser接口来接受代理对象，而是直接使用ChromeBrowser对象。这样的方式就<strong>可以代理ChromeBrowser中未在Chrome接口中的方法。</strong></p>
+<p>抛出问题：如果想让一个对象调用它未实现的接口中的方法，即后面AOP里所说的<strong>引用增强</strong>，原生的cglib怎么实现呢？</p>
+<h4 id="CGLIB引入增强"><a href="#CGLIB引入增强" class="headerlink" title="CGLIB引入增强"></a>CGLIB引入增强</h4><p>引入增强听上去很高大上，其实它的实现原理就以下几步：</p>
+<ol>
+<li>通过CGLIB创建代理对象，并使其实现指定接口</li>
+<li>在MethodIntercept的回调方法中，判断执行方法是否为接口中的方法，如果是，则通过反射调用接口的实现类。</li>
+</ol>
+<blockquote>
+<p>创建一个新接口Game，它定义了开始的方法：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Game</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>让代理类实现Game接口，并在intercept方法中判断执行方法是接口方法还是原对象的方法：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibIntroductionBrowserProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span>,<span class="title">Game</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CglibIntroductionBrowserProxy proxy = <span class="keyword">new</span> CglibIntroductionBrowserProxy();</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">CglibIntroductionBrowserProxy</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CglibIntroductionBrowserProxy <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> proxy;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">(Class&lt;T&gt; clazz)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (T) Enhancer.create(clazz, <span class="keyword">new</span> Class[]&#123; Game.class &#125;, <span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">// 程序执行前加入逻辑，MethodBeforeAdviceInterceptor</span></span><br><span class="line">		Object retVal;</span><br><span class="line">		<span class="keyword">if</span>(method.getDeclaringClass().isInterface())&#123;</span><br><span class="line">			method.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">			retVal = method.invoke(<span class="keyword">this</span>, args); </span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			retVal = proxy.invokeSuper(obj, args);</span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">// 程序执行后加入逻辑，MethodAfterAdviceInterceptor</span></span><br><span class="line">		<span class="keyword">return</span> retVal;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"start a game"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>来看测试类：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibIntroductionDynamicProxyTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Browser browser = CglibIntroductionBrowserProxy.getInstance().getProxy(ChromeBrowser.class);</span><br><span class="line">		browser.visitInternet();</span><br><span class="line">		</span><br><span class="line">		Game game = (Game) browser;</span><br><span class="line">		game.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>总结：可以发现执行接口方法时，通过jdk的反射机制来实现的。而调用其自身方法，则是通过cglib来触发的。</strong></p>
+<h4 id="最后补充几点"><a href="#最后补充几点" class="headerlink" title="最后补充几点"></a>最后补充几点</h4><ol>
+<li><strong>JDK动态代理的代理对象只能通过接口去接收，如果用原对象接收，会报类型转换异常</strong>。</li>
+<li><strong>cglib不能拦截final修饰的方法，调用时只会执行原有方法</strong>。</li>
+<li><strong>cglib是在运行时通过操作字节码来完成类的扩展和改变，除了代理，还支持很多强大的操作，比如bean的生成和属性copy，动态创建接口以及融合多个对象等，具体见<a href="https://github.com/cglib/cglib/wiki/Tutorial" target="_blank" rel="noopener">https://github.com/cglib/cglib/wiki/Tutorial</a></strong>。</li>
+</ol>
+<p>参考：</p>
+<p><a href="https://my.oschina.net/u/2377110/blog/1504596" target="_blank" rel="noopener">https://my.oschina.net/u/2377110/blog/1504596</a></p>
+<p><a href="https://my.oschina.net/u/2377110/blog/1504596" target="_blank" rel="noopener">https://my.oschina.net/u/2377110/blog/1504596</a></p>
+<p><a href="https://blog.csdn.net/dreamrealised/article/details/12885739" target="_blank" rel="noopener">https://blog.csdn.net/dreamrealised/article/details/12885739</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>秉持初心，继续向前。</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="FoBoHuang 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="FoBoHuang 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/28/Spring Bean/" rel="next" title="Spring Bean">
+                <i class="fa fa-chevron-left"></i> Spring Bean
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/03/Spring常见面试题总结/" rel="prev" title="Spring常见面试题总结">
+                Spring常见面试题总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="FoBoHuang">
+            
+              <p class="site-author-name" itemprop="name">FoBoHuang</p>
+              <p class="site-description motion-element" itemprop="description">乌云后面依然是灿烂的晴天。——朗弗罗</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FoBoHuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-IOC"><span class="nav-number">1.</span> <span class="nav-text">Spring IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC原理"><span class="nav-number">1.1.</span> <span class="nav-text">IOC原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是DI机制-依赖注入"><span class="nav-number">1.2.</span> <span class="nav-text">什么是DI机制(依赖注入)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC的实现原理"><span class="nav-number">2.</span> <span class="nav-text">IOC的实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Java反射机制"><span class="nav-number">2.1.</span> <span class="nav-text">Java反射机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念"><span class="nav-number">2.1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用"><span class="nav-number">2.1.2.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反射机制的深度解析"><span class="nav-number">2.1.3.</span> <span class="nav-text">反射机制的深度解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本运用"><span class="nav-number">2.1.4.</span> <span class="nav-text">基本运用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IOC容器技术剖析"><span class="nav-number">2.1.5.</span> <span class="nav-text">IOC容器技术剖析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工厂模式"><span class="nav-number">2.2.</span> <span class="nav-text">工厂模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-AOP"><span class="nav-number">3.</span> <span class="nav-text">Spring AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是AOP？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是AOP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用AOP需要的一些概念"><span class="nav-number">3.2.</span> <span class="nav-text">使用AOP需要的一些概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-AOP的实现机制"><span class="nav-number">3.3.</span> <span class="nav-text">Spring AOP的实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代理模式介绍"><span class="nav-number">3.3.1.</span> <span class="nav-text">代理模式介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态代理"><span class="nav-number">3.3.2.</span> <span class="nav-text">静态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">3.3.3.</span> <span class="nav-text">JDK动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGLIB动态代理"><span class="nav-number">3.3.4.</span> <span class="nav-text">CGLIB动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGLIB引入增强"><span class="nav-number">3.3.5.</span> <span class="nav-text">CGLIB引入增强</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后补充几点"><span class="nav-number">3.3.6.</span> <span class="nav-text">最后补充几点</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FoBoHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'FoBoHuang',
+            repo: 'FoBoHuang-gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a763f3599c9fb2007ef0bbca66d2b3c39333286b',
+            
+                client_id: 'c3e501c8c072f1bacaab'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '9xUUTOHjWlX7WvJiKb5cmYmD-gzGzoHsz',
+        appKey: 'zxkH0ow2tgRPWt5u3hg96bIS',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

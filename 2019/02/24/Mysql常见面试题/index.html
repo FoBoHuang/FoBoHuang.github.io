@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Mysql,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据库索引原理MyISAM和InnoDB索引的底层实现原理MyISAM 和 InnoDB 是MySQL的两代搜索引擎，区别在于，对于辅助索引的实现原理不一样，并且MyISAM是索引和文件分离的，而InnoDB不是。 一般以主键为索引的叫做主索引，而以其他键为索引的叫做辅助索引； MyISAM的实现原理，利用B+树实现：下面为主键索引：  由上图可以看出，col1是主键，而叶子结点存储的数据是一个地">
+<meta name="keywords" content="Mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql常见面试题">
+<meta property="og:url" content="https://FoBoHuang.github.io/2019/02/24/Mysql常见面试题/index.html">
+<meta property="og:site_name" content="凌晨四点的洛杉矶">
+<meta property="og:description" content="数据库索引原理MyISAM和InnoDB索引的底层实现原理MyISAM 和 InnoDB 是MySQL的两代搜索引擎，区别在于，对于辅助索引的实现原理不一样，并且MyISAM是索引和文件分离的，而InnoDB不是。 一般以主键为索引的叫做主索引，而以其他键为索引的叫做辅助索引； MyISAM的实现原理，利用B+树实现：下面为主键索引：  由上图可以看出，col1是主键，而叶子结点存储的数据是一个地">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql1.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql2.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql3.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql4.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql1.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql3.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql5.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql2.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql4.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql6.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql5.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql7.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql8.jpg">
+<meta property="og:updated_time" content="2019-09-27T15:45:40.513Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql常见面试题">
+<meta name="twitter:description" content="数据库索引原理MyISAM和InnoDB索引的底层实现原理MyISAM 和 InnoDB 是MySQL的两代搜索引擎，区别在于，对于辅助索引的实现原理不一样，并且MyISAM是索引和文件分离的，而InnoDB不是。 一般以主键为索引的叫做主索引，而以其他键为索引的叫做辅助索引； MyISAM的实现原理，利用B+树实现：下面为主键索引：  由上图可以看出，col1是主键，而叶子结点存储的数据是一个地">
+<meta name="twitter:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://FoBoHuang.github.io/2019/02/24/Mysql常见面试题/">
+
+
+
+
+
+  <title>Mysql常见面试题 | 凌晨四点的洛杉矶</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凌晨四点的洛杉矶</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://FoBoHuang.github.io/2019/02/24/Mysql常见面试题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FoBoHuang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌晨四点的洛杉矶">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mysql常见面试题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-24T19:06:36+08:00">
+                2019-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/02/24/Mysql常见面试题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/02/24/Mysql常见面试题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="数据库索引原理"><a href="#数据库索引原理" class="headerlink" title="数据库索引原理"></a>数据库索引原理</h2><h3 id="MyISAM和InnoDB索引的底层实现原理"><a href="#MyISAM和InnoDB索引的底层实现原理" class="headerlink" title="MyISAM和InnoDB索引的底层实现原理"></a>MyISAM和InnoDB索引的底层实现原理</h3><p>MyISAM 和 InnoDB 是MySQL的两代搜索引擎，区别在于，对于辅助索引的实现原理不一样，并且<strong>MyISAM是索引和文件分离的，而InnoDB不是</strong>。</p>
+<p><strong>一般以主键为索引的叫做主索引，而以其他键为索引的叫做辅助索引；</strong></p>
+<h4 id="MyISAM的实现原理，利用B-树实现："><a href="#MyISAM的实现原理，利用B-树实现：" class="headerlink" title="MyISAM的实现原理，利用B+树实现："></a>MyISAM的实现原理，利用B+树实现：</h4><p><strong>下面为主键索引：</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql1.jpg" alt="mysql1"></p>
+<p>由上图可以看出，col1是主键，而<strong>叶子结点存储的数据是一个地址，通过地址找到数据</strong>；</p>
+<p><strong>下面是辅助索引</strong>（和主索引不同的是<strong>辅助索引的key是可以重复的</strong>） :</p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql2.jpg" alt="mysql2"></p>
+<p><strong>注意：上图的叶子节点34下面的地址值应为0x07</strong></p>
+<h4 id="InnoDB的实现原理，利用B-树实现"><a href="#InnoDB的实现原理，利用B-树实现" class="headerlink" title="InnoDB的实现原理，利用B+树实现:"></a>InnoDB的实现原理，利用B+树实现:</h4><p><strong>下面是主键索引：</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql3.jpg" alt="mysql3"></p>
+<p>这是主索引，即利用主键构造的B+树；</p>
+<p>注意，和MyISAM<strong>不同的是叶子结点的数据域保存的是全部数据</strong>；</p>
+<p><strong>下面在看辅助索引：</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql4.jpg" alt="mysql4"></p>
+<p>仔细看辅助索引和主索引的区别，<strong>辅助索引的叶子结点保存的是主键</strong>。</p>
+<p>这就是MyISAM和InnoDB<strong>最大的不同</strong>。</p>
+<h4 id="既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？"><a href="#既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？" class="headerlink" title="既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？"></a>既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？</h4><p>试想，MyISAM和InnoDB都是以B+树为基础实现的，相对于B树的不同其实前面已经讲过，即数据域和结点分离。而<strong>MyISAM更是索引和文件分离，B+树的叶子结点的数据域存放的是文件内容的地址，主索引和辅助索引的B+树都是如此</strong>。那么如果我改变了一个地址，是不是所有的索引树都得改变，正如前面我们讲的在<strong>磁盘上频繁的读写操作是效率很低的，而这块又不适用局部原理</strong>，因为逻辑上相邻的结点，物理上不一定相邻，那么这样就会造成效率上的降低；</p>
+<p>于是乎，InnoDB就产生了，它让除了主索引以外的辅助索引的叶子结点的数据域都保存主键，先通过辅助索引找到主键，然后通过主键找到叶子结点的所有数据，听起来貌似很麻烦，遍历了两棵树，但是，<strong>这样如果有了修改的话，改变的只是主索引，其它辅助索引都不用动</strong>。而且，数据库中的树的每一个结点的key可不是咱们给的那么少。试想如果一个结点有1024个key，那么高度为2的B+树都有1024*1024个key，所以一般树的高度都很低，所以，遍历树的消耗几乎忽略不计！</p>
+<p>另外，我们也就很容易明白为什么<strong>不建议使用过长的字段作为主键，因为所有辅助索引都引用主索引，过长的主索引会令辅助索引变得过大。</strong></p>
+<h3 id="为什么使用B-Tree作为数据库索引？"><a href="#为什么使用B-Tree作为数据库索引？" class="headerlink" title="为什么使用B+Tree作为数据库索引？"></a>为什么使用B+Tree作为数据库索引？</h3><p>红黑树等数据结构也可以用来实现索引，但是<strong>文件系统及数据库系统</strong>普遍采用B-/+Tree作为索引结构。</p>
+<p>一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往以索引文件的形式存储的磁盘上。这样的话，索引查找过程中就要产生磁盘I/O消耗，相对于内存存取，I/O存取的消耗要高几个数量级，所以评价一个数据结构作为索引的优劣最重要的指标就是在查找过程中磁盘I/O操作次数的渐进复杂度。换句话说，索引的结构组织要尽量减少查找过程中磁盘I/O的存取次数。</p>
+<p>这样我们对比上面的B+树和红黑树，比如查找节点21，红黑树要磁盘IO5次，而B+树只要2次，也就是说磁盘IO次数大致为树的高度，这样B+树就脱颖而出了，成为实现索引的不二选择。</p>
+<p>实际情况中每个节点可能不能填充满，因此在数据库中，<strong>B+Tree的高度一般都在2~4层</strong>。MySQL的InnoDB存储引擎在设计时是将<strong>根节点常驻内存</strong>的，也就是说查找某一键值的行记录时最多只需要1~3次磁盘I/O操作。</p>
+<p>数据库中的B+Tree索引可以分为<strong>聚集索引</strong>（clustered index）和辅助索引（secondary index）。</p>
+<p>上面的B+Tree示例图在数据库中的实现即为聚集索引，聚集索引的B+Tree中的叶子节点存放的是整张表的行记录数据。<strong>辅助索引与聚集索引的区别在于辅助索引的叶子节点并不包含行记录的全部数据，而是存储相应行数据的聚集索引键，即主键。</strong>当通过辅助索引来查询数据时，InnoDB存储引擎会遍历辅助索引找到主键，然后再通过主键在聚集索引中找到完整的行记录数据。（InnoDB的索引实现原理）</p>
+<blockquote>
+<p><strong>聚簇索引(聚集索引)：</strong>并不是一种单独的索引类型，而是一种数据存储方式。具体细节取决于不同的实现，InnoDB的聚簇索引其实就是在同一个结构中保存了B-Tree索引(技术上来说是B+Tree)和数据行。</p>
+</blockquote>
+<h4 id="数据库索引采用B-树而不是B树或红黑树的主要原因："><a href="#数据库索引采用B-树而不是B树或红黑树的主要原因：" class="headerlink" title="数据库索引采用B+树而不是B树或红黑树的主要原因："></a><strong>数据库索引采用B+树而不是B树或红黑树的主要原因：</strong></h4><ol>
+<li><strong>方便扫库：</strong>B+树只要遍历叶子节点就可以实现整棵树的遍历，而且在数据库中基于范围的查询是非常频繁的，而B树只能中序遍历所有节点，效率太低。</li>
+<li>文件与数据库都是需要较大的存储，也就是说，它们都不可能全部存储在内存中，故需要存储到磁盘上。而所谓索引，则为了数据的快速定位与查找，那么<strong>索引的结构组织要尽量减少查找过程中磁盘I/O的存取次数，因此B+树相比B树更为合适。</strong>数据库系统巧妙利用了<strong>局部性原理与磁盘预读原理</strong>，<strong>将一个节点的大小设为等于一个页，这样每个节点只需要一次I/O就可以完全载入</strong>，<strong>而红黑树这种结构，高度明显要深的多，并且由于逻辑上很近的节点(父子)物理上可能很远，无法利用局部性</strong>。</li>
+</ol>
+<h3 id="为什么数据库选B-tree或B-tree而不是二叉查找树作为索引结构？"><a href="#为什么数据库选B-tree或B-tree而不是二叉查找树作为索引结构？" class="headerlink" title="为什么数据库选B-tree或B+tree而不是二叉查找树作为索引结构？"></a>为什么数据库选B-tree或B+tree而不是二叉查找树作为索引结构？</h3><ol>
+<li><p><strong>磁盘IO与预读</strong></p>
+<p>磁盘读取依靠的是<a href="https://www.baidu.com/s?wd=%E6%9C%BA%E6%A2%B0%E8%BF%90%E5%8A%A8&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">机械运动</a>，分为寻道时间、旋转延迟、传输时间三个部分，这三个部分耗时相加就是一次磁盘IO的时间，大概9ms左右。这个成本是访问内存的十万倍左右；<strong>正是由于磁盘IO是非常昂贵的操作，所以计算机操作系统对此做了优化：预读</strong></p>
+<p><strong>预读：每一次IO时，不仅仅把当前磁盘地址的数据加载到内存，同时也把相邻数据也加载到内存缓冲区中。</strong>因为局部预读原理说明，当访问一个地址数据的时候，与其相邻的数据很快也会被访问到。<strong>每次磁盘IO读取的数据我们称之为一页（page）。</strong>一页的大小与操作系统有关，一般为4k或者8k。这也就意味着读取一页内数据的时候，实际上发生了一次磁盘IO。</p>
+</li>
+<li><p><strong>B-Tree与二叉查找树的对比</strong></p>
+<p>我们知道二叉查找树查询的时间复杂度是O(logN)，<strong>查找速度最快和比较次数最少</strong>，既然性能已经如此优秀，但为什么实现索引是使用B-Tree而不是二叉查找树，关键因素是<strong>磁盘IO的次数</strong>。</p>
+<p><strong>数据库索引是存储在磁盘上，当表中的数据量比较大时，索引的大小也跟着增长，达到几个G甚至更多。当我们利用索引进行查询的时候，不可能把索引全部加载到内存中，只能逐一加载每个磁盘页，这里的磁盘页就对应索引树的节点。</strong></p>
+<p>一般来说，索引本身也很大，不可能全部存储在内存中，因此索引往往以索引文件的形式存储的磁盘上。这样的话，索引查找过程中就要产生磁盘I/O消耗，相对于内存存取，I/O存取的消耗要高几个数量级，所以评价一个数据结构作为索引的优劣<strong>最重要的指标就是在查找过程中磁盘I/O操作次数的渐进复杂度。</strong>换句话说，索引的结构组织<strong>要尽量减少查找过程中磁盘I/O的存取次数。</strong>而<strong>磁盘IO的次数和树的高度有关</strong>，因此，减少磁盘IO的次数就必须要压缩树的高度，让瘦高的树尽量变成矮胖的树，所以B-Tree就在这样伟大的时代背景下诞生了。</p>
+<p>索引是存在于索引文件中，是存在于磁盘中的。因为索引通常是很大的，因此无法一次将全部索引加载到内存当中，因此<strong>每次只能从磁盘中读取一个磁盘页的数据到内存中。</strong>而这个磁盘的读取的速度较内存中的读取速度而言是差了好几个级别。</p>
+<p>注意，我们说的平衡二叉树结构，指的是逻辑结构上的平衡二叉树，其物理实现是数组。然后<strong>由于在逻辑结构上相近的节点在物理结构上可能会差很远</strong>。<strong>因此，每次读取的磁盘页的数据中有许多是用不上的。</strong>因此，查找过程中要进行许多次的磁盘读取操作。</p>
+<p>而适合作为索引的结构应该是尽可能少的执行磁盘IO操作，因为执行磁盘IO操作非常的耗时。因此，平衡二叉树并不适合作为索引结构。</p>
+</li>
+</ol>
+<h3 id="为什么说B-树比B树更适合数据库索引？"><a href="#为什么说B-树比B树更适合数据库索引？" class="headerlink" title="为什么说B+树比B树更适合数据库索引？"></a>为什么说B+树比B树更适合数据库索引？</h3><p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql1.png" alt="mysql1"></p>
+<ol>
+<li><p><strong>B+树的磁盘读写代价更低</strong>：B+树的内部节点<strong>并没有指向关键字具体信息的指针</strong>，因此<strong>其内部节点相对B树更小</strong>。如果把所有同一内部节点的关键字存放在同一盘块中，那么盘块所能容纳的关键字数量也越多，一次性读入内存的需要查找的关键字也就越多，相对IO读写次数就降低了。</p>
+</li>
+<li><p><strong>B+树的查询效率更加稳定</strong>：由于非终结点并不是最终指向文件内容的结点，而只是叶子结点中关键字的索引。所以任何关键字的查找必须走一条从根结点到叶子结点的路。所有关键字查询的路径长度相同，导致每一个数据的查询效率相当。</p>
+</li>
+<li><p>由于B+树的<strong>数据都存储在叶子结点中，分支结点均为索引</strong>，<strong>方便扫库</strong>，只需要扫一遍叶子结点即可，但是B树因为其分支结点同样存储着数据，我们要找到具体的数据，需要进行一次中序遍历按序来扫，所以B+树更加适合在区间查询的情况，所以通常B+树用于数据库索引。</p>
+</li>
+<li><p>PS：我在知乎上看到有人是这样说的,我感觉说的也挺有道理的：</p>
+<p>他们认为数据库索引采用B+树的主要原因是：<strong>B树在提高了IO性能的同时并没有解决元素遍历的我效率低下的问题，正是为了解决这个问题，B+树应用而生。</strong>B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低。</p>
+</li>
+</ol>
+<p>参考：<a href="https://blog.csdn.net/qq_35571554/article/details/82759668" target="_blank" rel="noopener">https://blog.csdn.net/qq_35571554/article/details/82759668</a></p>
+<h2 id="数据库索引类型"><a href="#数据库索引类型" class="headerlink" title="数据库索引类型"></a>数据库索引类型</h2><p>首先要明白索引（index）是在存储引擎（storage engine）层面实现的，而不是server层面。不是所有的存储引擎都支持所有的索引类型。</p>
+<p><strong>即使多个存储引擎支持某一索引类型，它们的实现和行为也可能有所差别。</strong></p>
+<p>MySQL里的索引类型主要有以下几种：</p>
+<p><strong>1. B-Tree索引</strong></p>
+<p>最常见的索引类型，基于B-Tree数据结构。B-Tree的基本思想是，所有值（被索引的列）都是排过序的，每个叶节点到跟节点距离相等。所以B-Tree适合用来查找某一范围内的数据，而且可以直接支持数据排序（ORDER BY）。但是当索引多列时，列的顺序特别重要，需要格外注意。<strong>InnoDB和MyISAM都支持B-Tree索引。InnoDB用的是一个变种B+Tree，而MyISAM为了节省空间对索引进行了压缩，从而牺牲了性能。</strong></p>
+<p><strong>2. Hash索引</strong></p>
+<p>基于hash表。所以这种索引只支持精确查找，不支持范围查找，不支持排序。这意味着范围查找或ORDER BY都要依赖server层的额外工作。目前只有Memory引擎支持显式的hash索引（但是它的hash是nonunique的，冲突太多时也会影响查找性能）。Memory引擎默认的索引类型即是Hash索引，虽然它也支持B-Tree索引。</p>
+<p>例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> testhash (</span><br><span class="line">    fname <span class="built_in">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    lname <span class="built_in">VARCHAR</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    <span class="keyword">KEY</span> <span class="keyword">USING</span> <span class="keyword">HASH</span>(fname)</span><br><span class="line">) <span class="keyword">ENGINE</span> =<span class="keyword">MEMORY</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>3. Spatial (R-Tree)（空间）索引</strong></p>
+<p>只有MyISAM引擎支持，并且支持的不好。可以忽略。</p>
+<p><strong>4. Full-text索引</strong></p>
+<p>主要用来查找文本中的关键字，而不是直接与索引中的值相比较。Full-text索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的WHERE语句的参数匹配。<strong>你可以对某列分别进行full-text索引和B-Tree索引，两者互不冲突</strong>。Full-text索引<strong>配合MATCH AGAINST操作使用</strong>，而不是一般的WHERE语句加LIKE。</p>
+<p><strong>从数据结构的角度</strong></p>
+<ol>
+<li>B+树索引(O(logn))</li>
+<li>哈希索引<ul>
+<li>仅仅能满足”=”,”IN”和”&lt;&gt;”查询，不能使用范围查询。</li>
+<li>其检索效率非常高，索引的检索可以一次定位，不像B-Tree 索引需要从根节点到枝节点，最后才能访问到页节点这样多次的IO访问，所以 Hash 索引的查询效率要远高于 B-Tree 索引。</li>
+<li>只有Memory存储引擎显示支持hash索引。</li>
+</ul>
+</li>
+<li>FULLTEXT索引（现在MyISAM和InnoDB引擎都支持了）</li>
+<li>R-Tree索引（用于对GIS数据类型创建SPATIAL索引）</li>
+</ol>
+<p><strong>从物理存储角度</strong></p>
+<ol>
+<li>聚集索引（clustered index）</li>
+<li>非聚集索引（non-clustered index）</li>
+</ol>
+<blockquote>
+<p>MyISAM的是非聚簇索引，InnoDB使用的是聚簇索引。</p>
+</blockquote>
+<p><strong>从逻辑角度</strong></p>
+<ol>
+<li><p>主键索引：主键索引是一种特殊的唯一索引，不允许有空值。</p>
+</li>
+<li><p>普通索引或者单列索引。</p>
+</li>
+<li><p>多列索引（复合索引）：复合索引指多个字段上创建的索引，只有在查询条件中使用了创建索引时的第一个字段，索引才会被使用。<strong>注意：使用复合索引时遵循最左前缀。</strong></p>
+</li>
+<li><p>唯一索引或者非唯一索引。</p>
+</li>
+<li><p>空间索引：空间索引是对空间数据类型的字段建立的索引，MYSQL中的空间数据类型有4种，分别是GEOMETRY、POINT、LINESTRING、POLYGON。<br>MYSQL使用SPATIAL关键字进行扩展，使得能够用于创建正规索引类型的语法创建空间索引。创建空间索引的列，必须将其声明为NOT NULL，空间索引只能在存储引擎为MYISAM的表中创建。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> table_name[col_name <span class="keyword">data</span> <span class="keyword">type</span>]</span><br><span class="line">[<span class="keyword">unique</span>|fulltext|spatial][<span class="keyword">index</span>|<span class="keyword">key</span>][index_name](col_name[<span class="keyword">length</span>])[<span class="keyword">asc</span>|<span class="keyword">desc</span>]</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意：</p>
+<p>1、unique|fulltext|spatial为可选参数，分别表示唯一索引、全文索引和空间索引；</p>
+<p>2、index和key为同义词，两者作用相同，用来指定创建索引；</p>
+<p>3、col_name为需要创建索引的字段列，该列必须从数据表中该定义的多个列中选择；</p>
+<p>4、index_name指定索引的名称，为可选参数，如果不指定，MYSQL默认col_name为索引值；</p>
+<p>5、length为可选参数，表示索引的长度，只有字符串类型的字段才能指定索引长度；</p>
+<p>6、asc或desc指定升序或降序的索引值存储。</p>
+<h2 id="索引的使用场景"><a href="#索引的使用场景" class="headerlink" title="索引的使用场景"></a>索引的使用场景</h2><ol>
+<li><p><strong>匹配全值</strong>（match the full value）</p>
+<p>对索引中所有列都指定具体值，即是对索引中的所有列都有等值匹配的条件。<br>例如，租赁表 rental 中通过指定出租日期 rental_date + 库存编号 inventory_id + 客户编号 customer_id 的组合条件进行查询，执行计划的 key和extra两字段的值看到优化器选择了复合索引 idx_rental_date:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MySQL [sakila]&gt; explain select * from rental where rental_date=&apos;2005-05-25 17:22:10&apos; and inventory_id=373 and customer_id=343 \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: rental</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: const</span><br><span class="line">possible_keys: rental_date,idx_fk_inventory_id,idx_fk_customer_id</span><br><span class="line">          key: rental_date</span><br><span class="line">      key_len: 10</span><br><span class="line">          ref: const,const,const</span><br><span class="line">         rows: 1</span><br><span class="line">     filtered: 100.00</span><br><span class="line">        Extra: NULL</span><br><span class="line"> 1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>explain 输出结果中字段 type 的值为 const，表示是常量；字段 key 的值为 rental_date, 表示优化器选择索引 rental_date 进行扫描。</p>
+</li>
+<li><p><strong>匹配值的范围查询</strong>（match a range of values）</p>
+<p>对索引的值能够进行范围查找。<br>例如，检索租赁表 rental 中客户编号 customer_id 在指定范围内的记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MySQL [sakila]&gt; explain select * from rental where customer_id &gt;= 373 and customer_id &lt; 400 \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: rental</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: range</span><br><span class="line">possible_keys: idx_fk_customer_id</span><br><span class="line">          key: idx_fk_customer_id</span><br><span class="line">      key_len: 2</span><br><span class="line">          ref: NULL</span><br><span class="line">         rows: 718</span><br><span class="line">     filtered: 100.00</span><br><span class="line">        Extra: Using index condition</span><br><span class="line"> 1 row in set, 1 warning (0.05 sec)</span><br></pre></td></tr></table></figure>
+<p>类型 type 为 range 说明优化器选择范围查询，索引 key 为 idx_fk_customer_id 说明优化器选择索引 idx_fk_customer_id 来加速访问，注意到这个列子中 extra 列为 using index codition ，表示 mysql 使用了 ICP（using index condition） 来进一步优化查询。</p>
+</li>
+<li><p><strong>匹配最左前缀</strong>（match a leftmost prefix）</p>
+<p>最左匹配原则可以算是 MySQL 中 B-Tree 索引使用的首要原则。</p>
+</li>
+<li><p><strong>仅仅对索引进行查询（index only query）,也叫索引覆盖</strong></p>
+<p>当查询的列都在索引的字段中时，查询的效率更高。</p>
+<p>所以应该<strong>尽量避免使用 select *，需要哪些字段，就只查哪些字段。</strong></p>
+</li>
+<li><p><strong>匹配列前缀</strong>（match a column prefix）</p>
+<p><strong>仅仅使用索引中的第一列，并且只包含索引第一列的开头一部分进行查找。</strong><br>例如，现在需要查询出标题 title 是以 AFRICAN 开头的电影信息，从执行计划能够清楚看到，idx_title_desc_part 索引被利用上了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">MySQL [sakila]&gt; create index idx_title_desc_part on film_text(title (10), description(20));</span><br><span class="line">Query OK, 0 rows affected (0.07 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">MySQL [sakila]&gt; explain select title from film_text where title like &apos;AFRICAN%&apos;\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: film_text</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: range</span><br><span class="line">possible_keys: idx_title_desc_part,idx_title_description</span><br><span class="line">          key: idx_title_desc_part</span><br><span class="line">      key_len: 32</span><br><span class="line">          ref: NULL</span><br><span class="line">         rows: 1</span><br><span class="line">     filtered: 100.00</span><br><span class="line">        Extra: Using where</span><br><span class="line"> 1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>extra 值为 using where 表示优化器需要通过索引回表查询数据。</p>
+</li>
+<li><p><strong>能够实现索引匹配部分精确而其他部分进行范围匹配</strong>（match one part exactly and match a range on another part）</p>
+<p>例如，需要查询出租日期 rental_date 为指定日期且客户编号 customer_id 为指定范围的库存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MySQL [sakila]&gt; MySQL [sakila]&gt; explain select inventory_id from rental where rental_date=&apos;2006-02-14 15:16:03&apos; and customer_id &gt;= 300 and customer_id &lt;=400\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: rental</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: ref</span><br><span class="line">possible_keys: rental_date,idx_fk_customer_id</span><br><span class="line">          key: rental_date</span><br><span class="line">      key_len: 5</span><br><span class="line">          ref: const</span><br><span class="line">         rows: 182</span><br><span class="line">     filtered: 16.85</span><br><span class="line">        Extra: Using where; Using index</span><br><span class="line"> 1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果列名是索引，那么使用 column_name is null 就会使用索引</p>
+<p>例如，查询支付表 payment 的租赁编号 rental_id 字段为空的记录就用到了索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MySQL [sakila]&gt; explain select * from payment where rental_id is null \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">           id: 1</span><br><span class="line">  select_type: SIMPLE</span><br><span class="line">        table: payment</span><br><span class="line">   partitions: NULL</span><br><span class="line">         type: ref</span><br><span class="line">possible_keys: fk_payment_rental</span><br><span class="line">          key: fk_payment_rental</span><br><span class="line">      key_len: 5</span><br><span class="line">          ref: const</span><br><span class="line">         rows: 5</span><br><span class="line">     filtered: 100.00</span><br><span class="line">        Extra: Using index condition</span><br><span class="line"> 1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="索引失效的情况"><a href="#索引失效的情况" class="headerlink" title="索引失效的情况"></a>索引失效的情况</h2><ol>
+<li>用 or 分割开的条件，如果 or 前的条件中的列有索引，而后面的列中没有索引，那么涉及的索引都不会被用到。</li>
+<li>复合索引的情况下，假如查询条件不包含索引列最左边部分，即不满足最左前缀原则 ，是不会使用复合索引的。</li>
+<li>like查询是以%开头。</li>
+<li>如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引</li>
+<li>如果mysql估计使用全表扫描要比使用索引快,则不使用索引</li>
+</ol>
+<h2 id="最左前缀匹配原则"><a href="#最左前缀匹配原则" class="headerlink" title="最左前缀匹配原则"></a>最左前缀匹配原则</h2><ul>
+<li><p>定义：就是最左优先，在创建多列索引时，要根据业务需求，where子句中使用最频繁的一列放在最左边</p>
+</li>
+<li><p>生效原则：组合索引的生效原则：<strong>从前往后依次使用生效，如果中间某个索引没有使用，那么断点前面的索引部分起作用，断点后面的索引没有起作用。</strong><br>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">where a=3 and b=45 and c=5 .... 这种三个索引顺序使用中间没有断点，全部发挥作用；</span><br><span class="line">where a=3 and c=5... 这种情况下b就是断点，a发挥了效果，c没有效果</span><br><span class="line">where b=3 and c=4... 这种情况下a就是断点，在a后面的索引都没有发挥作用，这种写法联合索引没有发挥任何效果；</span><br><span class="line">where b=45 and a=3 and c=5 .... 这个跟第一个一样，全部发挥作用，abc只要用上了就行，跟写的顺序无关</span><br><span class="line"></span><br><span class="line">(0)    select * from mytable where a=3 and b=5 and c=4;</span><br><span class="line">abc三个索引都在where条件里面用到了，而且都发挥了作用</span><br><span class="line">(1)    select * from mytable where  c=4 and b=6 and a=3;</span><br><span class="line">这条语句列出来只想说明 mysql没有那么笨，where里面的条件顺序在查询之前会被mysql自动优化，效果跟上一句一样</span><br><span class="line">(2)    select * from mytable where a=3 and c=7;</span><br><span class="line">a用到索引，b没有用，所以c是没有用到索引效果的</span><br><span class="line">(3)    select * from mytable where a=3 and b&gt;7 and c=3;</span><br><span class="line">a用到了，b也用到了，c没有用到，这个地方b是范围值，也算断点，只不过自身用到了索引</span><br><span class="line">(4)    select * from mytable where b=3 and c=4;</span><br><span class="line">因为a索引没有使用，所以这里 bc都没有用上索引效果</span><br><span class="line">(5)    select * from mytable where a&gt;4 and b=7 and c=9;</span><br><span class="line">a用到了  b没有使用，c没有使用</span><br><span class="line">(6)    select * from mytable where a=3 order by b;</span><br><span class="line">a用到了索引，b在结果排序中也用到了索引的效果，前面说了，a下面任意一段的b是排好序的</span><br><span class="line">(7)    select * from mytable where a=3 order by c;</span><br><span class="line">a用到了索引，但是这个地方c没有发挥排序效果，因为中间断点了，使用 explain 可以看到 filesort</span><br><span class="line">(8)    select * from mytable where b=3 order by a;</span><br><span class="line">b没有用到索引，排序中a也没有发挥索引效果</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="MyISAM和InnoDB的区别"><a href="#MyISAM和InnoDB的区别" class="headerlink" title="MyISAM和InnoDB的区别"></a>MyISAM和InnoDB的区别</h2><p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql3.png" alt="mysql3"></p>
+<h3 id="MyISAM简介"><a href="#MyISAM简介" class="headerlink" title="MyISAM简介"></a>MyISAM简介</h3><p><strong>MyISAM是MySQL的默认数据库引擎（5.5版之前）</strong>，由早期的 <strong>ISAM</strong> （Indexed Sequential Access Method：有索引的顺序访问方法）所改良。虽然性能极佳，而且提供了大量的特性，包括全文索引、压缩、空间函数等，但MyISAM不支持事务和行级锁，而且最大的缺陷就是崩溃后无法安全恢复。不过，5.5版本之后，MySQL引入了InnoDB（另一种数据库引擎）。</p>
+<p>下面这张图只是想表达的意思是现在大多数时候我们使用的都是InnoDB存储引擎，但是在某些情况下使用MyISAM更好，比如：<strong>MyISAM更适合读密集的表，而InnoDB更适合写密集的的表。</strong> 在数据库做主从分离的情况下，经常选择MyISAM作为主库的存储引擎。</p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql5.jpg" alt="mysql5"></p>
+<h3 id="MyISAM特点"><a href="#MyISAM特点" class="headerlink" title="MyISAM特点"></a>MyISAM特点</h3><ul>
+<li><strong>不支持行锁(MyISAM只有表锁)</strong>，读取时对需要读到的所有表加锁，写入时则对表加排他锁；</li>
+<li><strong>不支持事务</strong></li>
+<li><strong>不支持外键</strong></li>
+<li><p><strong>不支持崩溃后的安全恢复</strong></p>
+</li>
+<li><p>在表有读取查询的同时，支持往表中插入新纪录</p>
+</li>
+<li><p>支持BLOB和TEXT的前500个字符索引，<strong>支持全文索引</strong></p>
+</li>
+<li><p><strong>支持延迟更新索引</strong>，极大地提升了写入性能</p>
+</li>
+<li><p>对于不会进行修改的表，支持<strong>压缩表</strong> ，极大地减少了磁盘空间的占用</p>
+</li>
+</ul>
+<h3 id="InnoDB的简介"><a href="#InnoDB的简介" class="headerlink" title="InnoDB的简介"></a>InnoDB的简介</h3><p><strong>InnoDB是MySQL的默认数据库引擎（5.5版之后）</strong>，2006年五月时由甲骨文公司并购。与传统的ISAM与</p>
+<p>MyISAM相比，InnoDB的最大特色就是支持了ACID兼容的事务（Transaction）功能。</p>
+<h3 id="InnoDB的特点"><a href="#InnoDB的特点" class="headerlink" title="InnoDB的特点"></a>InnoDB的特点</h3><ul>
+<li><strong>支持行锁</strong>，采用MVCC来支持高并发，有可能死锁</li>
+<li><strong>支持事务</strong></li>
+<li><strong>支持外键</strong></li>
+<li><strong>支持崩溃后的安全恢复</strong></li>
+<li><strong>不支持全文索引</strong></li>
+<li>读写阻塞与事务隔离级别相关</li>
+<li><strong>具有非常高效的缓存特性，能缓存索引，也能缓存数据</strong></li>
+<li>支持分区、表空间，类似Oracle数据库</li>
+</ul>
+<h3 id="关于二者的对比与总结"><a href="#关于二者的对比与总结" class="headerlink" title="关于二者的对比与总结"></a>关于二者的对比与总结</h3><h4 id="3-1-二者的常见对比"><a href="#3-1-二者的常见对比" class="headerlink" title="3.1 二者的常见对比"></a>3.1 二者的常见对比</h4><p><strong>1) count运算上的区别：</strong> 因为<strong>MyISAM缓存有表meta-data（行数等）</strong>，因此在做COUNT(*)时对于一个结构很好的查询是不需要消耗多少资源的。而对于InnoDB来说，则没有这种缓存。</p>
+<p><strong>2) 是否支持事务和崩溃后的安全恢复： MyISAM</strong>强调的是性能，<strong>每次查询具有原子性</strong>，其执行数度比InnoDB类型更快，但是<strong>不提供事务支持</strong>。<strong>InnoDB</strong>提供事务支持事务，外部键等高级数据库功能，具有事务(commit)、回滚(rollback)和崩溃修复能力(crash recovery capabilities)的事务安全(transaction-safe (ACID compliant))型表。</p>
+<p><strong>3)是否支持外键：</strong> MyISAM不支持，而InnoDB支持。</p>
+<h4 id="3-2-总结"><a href="#3-2-总结" class="headerlink" title="3.2 总结"></a>3.2 总结</h4><p><strong>MyISAM更适合读密集的表，而InnoDB更适合写密集的的表。</strong> 在数据库做主从分离的情况下，经常选择MyISAM作为主库的存储引擎。</p>
+<p>一般来说，如果需要事务支持，并且有较高的并发读取频率(MyISAM的表锁的粒度太大，所以当该表写并发量较高时，要等待的查询就会很多了)，InnoDB是不错的选择。如果你的数据量很大（MyISAM支持压缩特性可以减少磁盘的空间占用），而且不需要支持事务时，MyISAM是最好的选择。</p>
+<p>参考：<a href="https://juejin.im/post/5b1685bef265da6e5c3c1c34" target="_blank" rel="noopener">https://juejin.im/post/5b1685bef265da6e5c3c1c34</a></p>
+<h2 id="字符集及校对规则"><a href="#字符集及校对规则" class="headerlink" title="字符集及校对规则"></a>字符集及校对规则</h2><p><strong>字符集指的是一种从二进制编码到某类字符符号的映射</strong>。</p>
+<p><strong>校对规则则是指某种字符集下的排序规则</strong>。</p>
+<p>Mysql中每一种字符集都会对应一系列的校对规则。</p>
+<p><strong>Mysql采用的是类似继承的方式指定字符集的默认值，每个数据库以及每张数据表都有自己的默认值，他们逐层继承</strong>。比如：某个库中所有表的默认字符集将是该数据库所指定的字符集（这些表在没有指定字符集的情况下，才会采用默认字符集）</p>
+<p>PS：整理自《Java工程师修炼之道》</p>
+<h2 id="查询缓存的使用"><a href="#查询缓存的使用" class="headerlink" title="查询缓存的使用"></a>查询缓存的使用</h2><p>my.cnf加入以下配置，重启Mysql开启查询缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">query_cache_type=1</span><br><span class="line">query_cache_size=600000</span><br></pre></td></tr></table></figure>
+<p>Mysql执行以下命令也可以开启查询缓存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set global  query_cache_type=1;</span><br><span class="line">set global  query_cache_size=600000;</span><br></pre></td></tr></table></figure>
+<p>如上，<strong>开启查询缓存后在同样的查询条件以及数据情况下，会直接在缓存中返回结果</strong>。这里的<strong>查询条件包括查询本身、当前要查询的数据库、客户端协议版本号</strong>等一些可能影响结果的信息。因此任何两个查询在任何字符上的不同都会导致缓存不命中。此外，如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、Mysql库中的系统表，其查询结果也不会被缓存。</p>
+<p>缓存建立之后，Mysql的查询缓存系统会跟踪查询中涉及的每张表，如果这些表（数据或结构）发生变化，那么和这张表相关的所有缓存数据都将失效。</p>
+<p><strong>缓存虽然能够提升数据库的查询性能，但是缓存同时也带来了额外的开销，每次查询后都要做一次缓存操作，失效后还要销毁。</strong> 因此，开启缓存查询要谨慎，尤其对于写密集的应用来说更是如此。如果开启，要注意合理控制缓存空间大小，一般来说其大小设置为几十MB比较合适。此外，<strong>还可以通过sql_cache和sql_no_cache来控制某个查询语句是否需要缓存：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select sql_no_cache count(*) from usr;</span><br></pre></td></tr></table></figure>
+<h2 id="数据库并发控制"><a href="#数据库并发控制" class="headerlink" title="数据库并发控制"></a>数据库并发控制</h2><p>Mysql的大多数事务型存储引擎实现都不是简单的行级锁，基于并发性能考虑，一般都实现了MVCC多版本并发控制。</p>
+<p>Mysql的并发控制是为了实现事务的<strong>隔离性</strong>，实现隔离性就要解决脏读、不可重复读、幻读问题。</p>
+<p>Mysql的并发控制主要有两种方式，一种是多版本的并发控制(MVCC)，一种是基于锁的并发控制。</p>
+<p>最为常见的三种并发控制机制：</p>
+<ul>
+<li>悲观并发控制，悲观并发控制其实是最常见的并发控制机制，也就是锁；</li>
+<li>乐观并发控制，乐观并发控制其实也有另一个名字：乐观锁，乐观锁其实并不是一种真实存在的锁；</li>
+<li>多版本并发控制，与前两者对立的命名不同，MVCC 可以与前两者中的任意一种机制结合使用，以提高数据库的读性能。</li>
+</ul>
+<p>并发控制要解决的问题：未提交的修改数据</p>
+<ul>
+<li>脏读：一个事务读到了另一个事务尚未提交的数据。</li>
+<li>不可重复读：同一个事务中<strong>两次读取</strong>的数据发生改变，这种改变是由另一个事务修改了对应记录引起的。</li>
+<li>幻读：同一事务多次查询进行的时候，由于其他插入或删除操作的事务提交，导致每次返回不同的结果集(查到的数据增多或者减少)</li>
+</ul>
+<blockquote>
+<p>小结：不可重复读的和幻读很容易混淆，不可重复读侧重于修改，幻读侧重于新增或删除。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+</blockquote>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql2.png" alt="mysql2"></p>
+<h3 id="MVCC多版本并发控制"><a href="#MVCC多版本并发控制" class="headerlink" title="MVCC多版本并发控制"></a>MVCC多版本并发控制</h3><p>MVCC是通过保存数据在某个时间点的快照来实现的。不管事务执行多长时间，事务看到的数据都是一致的。</p>
+<p>MVCC最大的优点就是：读不加锁，读写不冲突。</p>
+<h4 id="MVCC的实现原理"><a href="#MVCC的实现原理" class="headerlink" title="MVCC的实现原理"></a>MVCC的实现原理</h4><p>为了实现MVCC，InnoDB对每一行都加上了两个隐藏的列，其中一列存储行被修改的时系统的修改版本号，另外一列存储行被删除时的系统的删除版本号。每当一个事务开始的时候，InnoDB都会给这个事务分配一个递增的版本号，事务开始时的系统版本号会作为事务的版本号。</p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql4.png" alt="mysql4"></p>
+<blockquote>
+<p><strong>实际上，这个描述是很不严格的，问题有以下几点：</strong></p>
+</blockquote>
+<ol>
+<li><p>每条记录含有的隐藏列不是两个而是三个</p>
+<p>它们分别是：</p>
+<p><strong>DB_TRX_ID</strong>, 6byte, 创建这条记录/最后一次更新这条记录的事务ID</p>
+<p><strong>DB_ROLL_PTR</strong>, 7byte，回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</p>
+<p><strong>DB_ROW_ID</strong>, 6byte，隐含的自增ID，如果数据表没有主键，InnoDB会自动以DB_ROW_ID产生一个聚簇索引</p>
+<p>另外，每条记录的<a href="https://blog.jcole.us/2013/01/10/the-physical-structure-of-records-in-innodb" target="_blank" rel="noopener">头信息（record header）里都有一个专门的bit（<strong>deleted_flag</strong>）</a>来表示当前记录是否已经被删除</p>
+</li>
+<li><p>记录的历史版本是放在专门的rollback segment里（undo log）</p>
+<blockquote>
+<p>UPDATE非主键语句的效果是:</p>
+<p>老记录被复制到rollback segment中形成undo log，DB_TRX_ID和DB_ROLL_PTR不动</p>
+<p>新记录的DB_TRX_ID = 当前事务ID，DB_ROLL_PTR指向老记录形成的undo log</p>
+<p>这样就能通过DB_ROLL_PTR找到这条记录的历史版本。如果对同一行记录执行连续的update操作，新记录与undo log会组成一个链表，遍历这个链表可以看到这条记录的变迁）</p>
+</blockquote>
+</li>
+<li><p>Mysql的一致性读，是通过一个叫做read view的结构来实现的，下面介绍相关概念和可见性比较算法：</p>
+<blockquote>
+<p>read_view中维护了系统中活跃事务集合的快照，这些活跃事务ID的<strong>最小值为up_limit_id，最大值为low_limit_id</strong>。</p>
+<p>设要读取的行的最后提交事务id(即当前数据行的稳定事务id)为 <code>trx_id_current</code>，<br>当前新开事务id为 <code>new_id</code>，当前新开事务创建的快照<code>read view</code> 中最早的事务id为<code>up_limit_id</code>, 最迟的事务id为<code>low_limit_id</code>(注意这个low_limit_id=未开启的事务id=当前最大事务id+1)</p>
+</blockquote>
+<ul>
+<li>1.<code>trx_id_current &lt; up_limit_id</code>, 这种情况比较好理解, 表示新事务在读取该行记录时, 该行记录的稳定事务ID是小于系统当前所有活跃的事务, 所以当前行稳定数据对新事务可见, 跳到步骤5.</li>
+<li>2.<code>trx_id_current &gt;= trx_id_last</code>, 这种情况也比较好理解, 表示该行记录的稳定事务ID是在本次新事务创建之后才开启的, 但是却在本次新事务执行第二个select前就commit了，所以该行记录的当前值不可见, 跳到步骤4。</li>
+<li>3.<code>trx_id_current &lt;= trx_id_current &lt;= trx_id_last</code>, 表示该行记录所在事务在本次新事务创建的时候处于活动状态，从up_limit_id到low_limit_id进行遍历，如果trx_id_current等于他们之中的某个事务id的话，那么不可见，调到步骤4，否则表示可见，调到步骤5。</li>
+<li>4.从该行记录的 DB_ROLL_PTR 指针所指向的回滚段中取出最新的undo-log的版本号, 将它赋值该 <code>trx_id_current</code>，然后跳到步骤1重新开始判断。</li>
+<li>5.将该可见行的值返回。</li>
+</ul>
+</li>
+<li><p>辅助索引实现MVCC</p>
+<blockquote>
+<p>刚才讲的内容是基于聚簇索引的，只有聚簇索引中含有DB_TRX_ID与DB_ROLL_PTR隐藏列，可以比较容易的实现MVCC，但是辅助中并不含有这几个隐藏列，只含有1个bit的deleted flag。</p>
+</blockquote>
+</li>
+<li><p>purge线程</p>
+<blockquote>
+<p>从前面的分析可以看出，为了实现InnoDB的MVCC机制，更新或者删除操作都只是设置一下老记录的deleted_bit，并不真正将过时的记录删除。</p>
+<p>为了节省磁盘空间，InnoDB有专门的purge线程来清理deleted_bit为true的记录。</p>
+<p>为了不影响MVCC的正常工作，purge线程自己也维护了一个read view（<strong>这个read view相当于系统中最老活跃事务的read view</strong>）</p>
+<p>如果某个记录的deleted_bit为true，并且DB_TRX_ID相对于purge线程的read view可见，那么这条记录一定是可以被安全清除的。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="补充概念"><a href="#补充概念" class="headerlink" title="补充概念"></a>补充概念</h4><blockquote>
+<p><strong>多版本控制</strong>: 指的是一种提高并发的技术。最早的数据库系统，只有读读之间可以并发，读写，写读，写写都要阻塞。引入多版本之后，只有写写之间相互阻塞，其他三种操作都可以并行，这样大幅度提高了InnoDB的并发度。在内部实现中，与Postgres在数据行上实现多版本不同，InnoDB是在undolog中实现的，通过undolog可以找回数据的历史版本。找回的数据历史版本可以提供给用户读(按照隔离级别的定义，有些读请求只能看到比较老的数据版本)，也可以在回滚的时候覆盖数据页上的数据。<strong>在InnoDB内部中，会记录一个全局的活跃读写事务数组，其主要用来判断事务的可见性(up_limit_id和low_limit_id)。</strong></p>
+</blockquote>
+<blockquote>
+<p>read view：主要是用来做可见性判断的, 比较普遍的解释便是”本事务不可见的当前其他活跃事务”。</p>
+</blockquote>
+<p>对于read view快照的生成时机, 也非常关键, <strong>正是因为生成时机的不同, 造成了RC,RR两种隔离级别的不同可见性</strong>;</p>
+<ul>
+<li>在innodb中(默认repeatable read级别), 事务在begin/start transaction之后的第一条select读操作后, 会创建一个快照(read view), 将当前系统中活跃的其他事务记录记录起来;</li>
+<li>在innodb中(默认repeatable committed级别), 事务中每条select语句都会创建一个快照(read view);</li>
+</ul>
+<blockquote>
+<p>undo_log</p>
+</blockquote>
+<ul>
+<li>Undo log是InnoDB MVCC事务特性的重要组成部分。当我们对记录做了变更操作时就会产生undo记录，Undo记录默认被记录到系统表空间(ibdata)中，但从5.6开始，也可以使用独立的Undo 表空间。</li>
+<li>Undo记录中存储的是老版本数据，当一个旧的事务需要读取数据时，为了能读取到老版本的数据，需要顺着undo链找到满足其可见性的记录。当版本链很长时，通常可以认为这是个比较耗时的操作（例如bug#69812）。</li>
+<li>大多数对数据的变更操作包括INSERT/DELETE/UPDATE，其中INSERT操作在事务提交前只对当前事务可见，因此产生的Undo日志可以在事务提交后直接删除（谁会对刚插入的数据有可见性需求呢！！），而对于UPDATE/DELETE则需要维护多版本信息，在InnoDB里，UPDATE和DELETE操作产生的Undo日志被归成一类，即update_undo</li>
+<li>另外, 在回滚段中的undo logs分为: <code>insert undo log</code> 和 <code>update undo log</code><ul>
+<li>insert undo log : 事务对insert新记录时产生的undolog, 只在事务回滚时需要, 并且在事务提交后就可以立即丢弃。</li>
+<li>update undo log : 事务对记录进行delete和update操作时产生的undo log, 不仅在事务回滚时需要, 一致性读也需要，所以不能随便删除，只有当数据库所使用的快照中不涉及该日志记录，对应的回滚日志才会被purge线程删除。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>读操作分成两类：快照读和当前读。</p>
+</blockquote>
+<ul>
+<li><p><strong>快照读</strong>：简单的select操作属于快照读，不加锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> ?</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>当前读</strong>：特殊的读操作，插入/更新/删除操作，属于当前读，需要加锁。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> ? <span class="keyword">lock</span> <span class="keyword">in</span> <span class="keyword">share</span> <span class="keyword">mode</span> ;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> ? <span class="keyword">for</span> <span class="keyword">update</span> ;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">table</span> <span class="keyword">set</span> ? <span class="keyword">where</span> ? ;</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> ? ;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="乐观并发控制"><a href="#乐观并发控制" class="headerlink" title="乐观并发控制"></a>乐观并发控制</h3><p>一般采用以下方式：使用版本号(version)机制来实现，版本号就是为数据添加一个版本标志，一般在表中添加一个version字段；当读取数据的时候把version也取出来，然后version+1，更新数据库的时候对比第一次取出来的version和数据库里面的version是否一致，如果一致则更新成功，否则失败进入重试，具体使用大致如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,<span class="keyword">version</span> <span class="keyword">from</span> test_lock <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br><span class="line">....</span><br><span class="line"><span class="keyword">update</span> test_lock <span class="keyword">set</span> <span class="keyword">name</span>=<span class="string">'xxx'</span>,<span class="keyword">version</span>=<span class="keyword">version</span>+<span class="number">1</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">1</span> <span class="keyword">and</span> <span class="keyword">version</span>=$&#123;<span class="keyword">version</span>&#125;;</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+<p>先查询后更新，需要保证原子性，要么使用悲观锁的方式，对整个事务加锁；要么使用乐观锁的方式，如果在读多写少的系统中，乐观锁性能更好；</p>
+<h3 id="事务机制"><a href="#事务机制" class="headerlink" title="事务机制"></a>事务机制</h3><p>关系型数据库需要遵循ACID原则，具体内容如下：</p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql6.jpg" alt="mysql6"></p>
+<ol>
+<li><strong>原子性：</strong> 事务是最小的执行单位，不允许分割。事务的原子性确保动作要么全部完成，要么完全不起作用；</li>
+<li><strong>一致性：</strong> 执行事务前后，数据库从一个一致性状态转换到另一个一致性状态。</li>
+<li><strong>隔离性：</strong> 并发访问数据库时，一个用户的事务不被其他事务所干扰，各并发事务之间数据库是独立的；</li>
+<li><strong>持久性：</strong> 一个事务被提交之后。它对数据库中数据的改变是持久的，即使数据库发生故障也不应该对其有任何影响。</li>
+</ol>
+<p><strong>为了达到上述事务特性，数据库定义了几种不同的事务隔离级别：</strong></p>
+<ul>
+<li><p><strong>READ_UNCOMMITTED（读未提交）:</strong> 最低的隔离级别，允许读取<strong>尚未提交的数据变更</strong>，<strong>可能会导致脏读、幻读或不可重复读</strong></p>
+</li>
+<li><p><strong>READ_COMMITTED（读已提交）:</strong> 允许读取<strong>并发事务已经提交的数据</strong>，<strong>可以阻止脏读，但是幻读或不可重复读仍有可能发生</strong></p>
+</li>
+<li><p><strong>REPEATABLE_READ（可重复读）:</strong> 对同一字段的<strong>多次读取结果都是一致的</strong>，除非数据是被本身事务自己所修改，<strong>可以阻止脏读和不可重复读，但幻读仍有可能发生。</strong></p>
+</li>
+<li><p><strong>SERIALIZABLE（串行化）:</strong> 最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，<strong>该级别可以防止脏读、不可重复读以及幻读</strong>。但是这将严重影响程序的性能。通常情况下也不会用到该级别。</p>
+<blockquote>
+<p>Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="锁机制与InnoDB锁算法"><a href="#锁机制与InnoDB锁算法" class="headerlink" title="锁机制与InnoDB锁算法"></a>锁机制与InnoDB锁算法</h3><p><strong>MyISAM和InnoDB存储引擎使用的锁：</strong></p>
+<ul>
+<li>MyISAM采用表级锁(table-level locking)</li>
+<li>InnoDB支持行级锁(row-level locking)和表级锁,默认为行级锁</li>
+</ul>
+<h4 id="按照锁的粒度把数据库锁分为表级锁和行级锁"><a href="#按照锁的粒度把数据库锁分为表级锁和行级锁" class="headerlink" title="按照锁的粒度把数据库锁分为表级锁和行级锁"></a>按照锁的粒度把数据库锁分为表级锁和行级锁</h4><ul>
+<li><strong>表级锁：</strong> Mysql中锁定 <strong>粒度最大</strong> 的一种锁，对当前操作的整张表加锁，实现简单，资源消耗也比较少，加锁快，不会出现死锁。其锁定粒度最大，触发锁冲突的概率最高，并发度最低，MyISAM和 InnoDB引擎都支持表级锁。</li>
+<li><strong>行级锁：</strong> Mysql中锁定 <strong>粒度最小</strong> 的一种锁，只针对当前操作的行进行加锁。 行级锁能大大减少数据库操作的冲突。其加锁粒度最小，并发度高，但加锁的开销也最大，加锁慢，会出现死锁。InnoDB支持的行级锁，包括如下几种：<ul>
+<li><strong>Record Lock:</strong> 对索引项加锁，锁定符合条件的行。其他事务不能修改和删除加锁项；</li>
+<li><strong>Gap Lock:</strong> 对索引项之间的“间隙”加锁，锁定记录的范围（对第一条记录前的间隙或最后一条将记录后的间隙加锁），不包含索引项本身。其他事务不能在锁范围内插入数据，这样就防止了别的事务新增幻影行。</li>
+<li><strong>Next-key Lock：</strong> 锁定索引项本身和索引范围。即Record Lock和Gap Lock的结合，可解决幻读问题。</li>
+</ul>
+</li>
+</ul>
+<p><strong>虽然使用行级索具有粒度小、并发度高等特点，但是表级锁有时候也是非常必要的</strong>：</p>
+<ul>
+<li>事务更新大表中的大部分数据直接使用表级锁效率更高；</li>
+<li>事务比较复杂，使用行级索很可能引起死锁导致回滚。</li>
+</ul>
+<blockquote>
+<p><strong>补充：</strong></p>
+</blockquote>
+<p><strong>页级锁：</strong> MySQL中锁定粒度介于行级锁和表级锁中间的一种锁。表级锁速度快，但冲突多，行级冲突少，但速度慢。页级进行了折衷，一次锁定相邻的一组记录。BDB支持页级锁。开销和加锁时间界于表锁和行锁之间，会出现死锁。锁定粒度界于表锁和行锁之间，并发度一般。</p>
+<h4 id="按照是否可写进一步划分为共享锁-S锁-和排他锁-X锁"><a href="#按照是否可写进一步划分为共享锁-S锁-和排他锁-X锁" class="headerlink" title="按照是否可写进一步划分为共享锁(S锁)和排他锁(X锁)"></a>按照是否可写进一步划分为共享锁(S锁)和排他锁(X锁)</h4><p><strong>表级锁和行级锁可以进一步划分为共享锁（S）和排他锁（X）</strong></p>
+<ul>
+<li><p>共享锁（S）</p>
+<p><strong>共享锁（Share Locks，简记为S）又被称为读锁</strong>，其他用户可以并发读取数据，但任何事务都不能获取数据上的排他锁，直到已释放所有共享锁。</p>
+<p>共享锁(S锁)又称为读锁，若事务T对数据对象A加上S锁，则事务T只能读A；<strong>其他事务只能再对A加S锁，而不能加X锁</strong>，直到T释放A上的S锁。这就保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</p>
+</li>
+<li><p>排他锁（X）：</p>
+<p><strong>排它锁（(Exclusive lock,简记为X锁)）又称为写锁</strong>，若事务T对数据对象A加上X锁，则只允许T读取和修改A，<strong>其它任何事务都不能再对A加任何类型的锁</strong>，直到T释放A上的锁。它防止任何其它事务获取资源上的锁，直到在事务的末尾将资源上的原始锁释放为止。在更新操作(INSERT、UPDATE 或 DELETE)过程中始终应用排它锁。</p>
+</li>
+</ul>
+<p><strong>两者之间的区别：</strong></p>
+<ol>
+<li><p>共享锁（S锁）：如果事务T对数据A加上共享锁后，则其他事务只能对A再加共享锁，而不能加排他锁。获取共享锁的事务只能读数据，不能修改数据。</p>
+<p>排他锁（X锁）：如果事务T对数据A加上排他锁后，则其他事务不能再对A加任任何类型的封锁。获取排他锁的事务既能读数据，又能修改数据。</p>
+</li>
+<li><p>共享锁下其它用户可以并发读取，查询数据，但不能修改，增加，删除数据，即资源共享。</p>
+</li>
+</ol>
+<h4 id="另外两种表级锁：IS和IX"><a href="#另外两种表级锁：IS和IX" class="headerlink" title="另外两种表级锁：IS和IX"></a>另外两种表级锁：IS和IX</h4><p>当一个事务需要给自己需要的某个资源加锁的时候，如果遇到一个共享锁正锁定着自己需要的资源的时候，自己可以再加一个共享锁，不过不能加排他锁。但是，如果遇到自己需要锁定的资源已经被一个排他锁占有之后，则只能等待该锁定释放资源之后自己才能获取锁定资源并添加自己的锁定。而<strong>意向锁的作用就是当一个事务在需要获取的资源锁定的时候，该事务可以需要锁定行的表上面添加一个合适的意向锁。如果自己需要一个共享锁，那么就在表上面添加一个意向共享锁。而如果自己需要的是某行（或者某些行）上面添加一个排他锁的话，则先在表上面添加一个意向排他锁。意向共享锁可以同时并存多个，但是意向排他锁同时只能有一个存在。</strong></p>
+<p><strong>InnoDB另外的两个表级锁：</strong></p>
+<ul>
+<li><strong>意向共享锁（IS）：</strong> 表示事务准备给数据行记入共享锁，事务在一个数据行加共享锁前必须先取得该表的IS锁。</li>
+<li><strong>意向排他锁（IX）：</strong> 表示事务准备给数据行加入排他锁，事务在一个数据行加排他锁前必须先取得该表的IX锁。</li>
+</ul>
+<blockquote>
+<p><strong>注意：</strong></p>
+</blockquote>
+<ol>
+<li><strong>这里的意向锁是表级锁，表示的是一种意向，仅仅表示事务正在读或写某一行记录，在真正加行锁时才会判断是否冲突。意向锁是InnoDB自动加的，不需要用户干预。</strong></li>
+<li><strong>IX，IS是表级锁，不会和行级的X，S锁发生冲突，只会和表级的X，S发生冲突。</strong></li>
+</ol>
+<blockquote>
+<p><strong>InnoDB的锁机制兼容情况如下：</strong></p>
+</blockquote>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql5.png" alt="mysql5"></p>
+<p><strong>当一个事务请求的锁模式与当前的锁兼容，InnoDB就将请求的锁授予该事务；反之如果请求不兼容，则该事物就等待锁释放。</strong></p>
+<h4 id="死锁和避免死锁"><a href="#死锁和避免死锁" class="headerlink" title="死锁和避免死锁"></a>死锁和避免死锁</h4><p><strong>InnoDB的行级锁是基于索引实现的，如果查询语句为命中任何索引，那么InnoDB会使用表级锁。</strong> 此外，InnoDB的行级锁是针对索引加的锁，不针对数据记录，因此即使访问不同行的记录，如果使用了相同的索引键仍然会出现锁冲突。</p>
+<blockquote>
+<p>另外，还需要注意，在通过以下情况使用锁的时候，如果表没有定义任何索引，那么InnoDB会创建一个隐藏的聚簇索引并使用这个索引来加记录锁。</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ...LOCK <span class="keyword">IN</span> <span class="keyword">SHARE</span> <span class="keyword">MODE</span>;</span><br><span class="line"><span class="keyword">SELECT</span> ...FOR <span class="keyword">UPDATE</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>死锁产生：<strong>不同于MyISAM总是一次性获得所需的全部锁，InnoDB的锁是逐步获得的，当两个事务都需要获得对方持有的锁，导致双方都在等待，这就产生了死锁。</strong> </p>
+</blockquote>
+<p>发生死锁后，InnoDB一般都可以检测到，并使一个事务释放锁回退，另一个则可以获取锁完成事务。</p>
+<blockquote>
+<p>避免死锁：</p>
+</blockquote>
+<ul>
+<li><strong>通过表级锁来减少死锁产生的概率；</strong></li>
+<li><strong>多个程序尽量约定以相同的顺序访问表（这也是解决并发理论中哲学家就餐问题的一种思路）；</strong></li>
+<li><strong>同一个事务尽可能做到一次锁定所需要的所有资源。</strong></li>
+</ul>
+<h2 id="大表优化"><a href="#大表优化" class="headerlink" title="大表优化"></a>大表优化</h2><p>当MySQL<strong>单表记录数过大</strong>时，数据库的CRUD性能会明显下降，一些常见的优化措施如下：</p>
+<ol>
+<li><p><strong>限定数据的范围：</strong> 务必禁止不带任何限制数据范围条件的查询语句。比如：我们当用户在查询订单历史的时候，我们可以控制在一个月的范围内。；</p>
+</li>
+<li><p><strong>读/写分离：</strong> 经典的数据库拆分方案，<strong>主库负责写，从库负责读</strong>；</p>
+</li>
+<li><p><strong>垂直分区：</strong></p>
+<p><strong>根据数据库里面数据表的相关性进行拆分。</strong> 例如，用户表中既有用户的登录信息又有用户的基本信息，可以将用户表拆分成两个单独的表，甚至放到单独的库做分库。</p>
+<p><strong>简单来说垂直拆分是指数据表列的拆分，把一张列比较多的表拆分为多张表。</strong> 如下图所示，这样来说大家应该就更容易理解了。 </p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql7.jpg" alt="mysql7"></p>
+<p><strong>垂直拆分的优点：</strong> 可以使得行数据变小，在查询时减少读取的Block数，减少I/O次数。此外，垂直分区可以简化表的结构，易于维护。</p>
+<p><strong>垂直拆分的缺点：</strong> 主键会出现冗余，需要管理冗余列，并会引起join操作，可以通过在应用层进行join来解决。此外，垂直分区会让事务变得更加复杂；</p>
+</li>
+<li><p><strong>水平分区：</strong></p>
+<p><strong>保持数据表结构不变，通过某种策略存储数据分片。这样每一片数据分散到不同的表或者库中，达到了分布式的目的。 水平拆分可以支撑非常大的数据量。</strong></p>
+<p>水平拆分是指数据表行的拆分，表的行数超过200万行时，就会变慢，这时可以把一张的表的数据拆成多张表来存放。举个例子：我们可以将用户信息表拆分成多个用户信息表，这样就可以避免单一表数据量过大对性能造成影响。</p>
+<p><img src="//FoBoHuang.github.io/2019/02/24/Mysql常见面试题/mysql8.jpg" alt="mysql8"></p>
+<p>水平拆分可以支持非常大的数据量。需要<strong>注意</strong>的一点是：<strong>分表仅仅是解决了单一表数据过大的问题</strong>，但由于表的数据还是在同一台机器上，其实对于提升MySQL并发能力没有什么意义，所以 <strong>水平拆分最好分库</strong> 。</p>
+<p>水平拆分能够 <strong>支持非常大的数据量存储，应用端改造也少</strong>，但 <strong>分片事务难以解决</strong> ，跨界点Join性能较差，逻辑复杂。《Java工程师修炼之道》的作者推荐 <strong>尽量不要对数据进行分片，因为拆分会带来逻辑、部署、运维的各种复杂度</strong> ，一般的数据表在优化得当的情况下支撑千万以下的数据量是没有太大问题的。如果实在要分片，尽量选择客户端分片架构，这样可以减少一次和中间件的网络I/O。</p>
+<p><strong>下面补充一下数据库分片的两种常见方案：</strong></p>
+<ul>
+<li><strong>客户端代理：</strong> <strong>分片逻辑在应用端，封装在jar包中，通过修改或者封装JDBC层来实现。</strong> 当当网的 <strong>Sharding-JDBC</strong> 、阿里的TDDL是两种比较常用的实现。</li>
+<li><strong>中间件代理：</strong> <strong>在应用和数据中间加了一个代理层。分片逻辑统一维护在中间件服务中。</strong> 我们现在谈的 <strong>Mycat</strong> 、360的Atlas、网易的DDB等等都是这种架构的实现。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>秉持初心，继续向前。</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="FoBoHuang 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="FoBoHuang 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/23/计算机网络常见面试题/" rel="next" title="计算机网络常见面试题">
+                <i class="fa fa-chevron-left"></i> 计算机网络常见面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/28/SpringMVC工作原理详解/" rel="prev" title="SpringMVC工作原理详解">
+                SpringMVC工作原理详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="FoBoHuang">
+            
+              <p class="site-author-name" itemprop="name">FoBoHuang</p>
+              <p class="site-description motion-element" itemprop="description">乌云后面依然是灿烂的晴天。——朗弗罗</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FoBoHuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库索引原理"><span class="nav-number">1.</span> <span class="nav-text">数据库索引原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM和InnoDB索引的底层实现原理"><span class="nav-number">1.1.</span> <span class="nav-text">MyISAM和InnoDB索引的底层实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MyISAM的实现原理，利用B-树实现："><span class="nav-number">1.1.1.</span> <span class="nav-text">MyISAM的实现原理，利用B+树实现：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB的实现原理，利用B-树实现"><span class="nav-number">1.1.2.</span> <span class="nav-text">InnoDB的实现原理，利用B+树实现:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？"><span class="nav-number">1.1.3.</span> <span class="nav-text">既然MyISAM和InnoDB是MySQL的两代引擎，肯定会有一个提升，而InnoDB是最新一代，那么它到底优在哪里？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么使用B-Tree作为数据库索引？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么使用B+Tree作为数据库索引？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库索引采用B-树而不是B树或红黑树的主要原因："><span class="nav-number">1.2.1.</span> <span class="nav-text">数据库索引采用B+树而不是B树或红黑树的主要原因：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么数据库选B-tree或B-tree而不是二叉查找树作为索引结构？"><span class="nav-number">1.3.</span> <span class="nav-text">为什么数据库选B-tree或B+tree而不是二叉查找树作为索引结构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么说B-树比B树更适合数据库索引？"><span class="nav-number">1.4.</span> <span class="nav-text">为什么说B+树比B树更适合数据库索引？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库索引类型"><span class="nav-number">2.</span> <span class="nav-text">数据库索引类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引的使用场景"><span class="nav-number">3.</span> <span class="nav-text">索引的使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引失效的情况"><span class="nav-number">4.</span> <span class="nav-text">索引失效的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最左前缀匹配原则"><span class="nav-number">5.</span> <span class="nav-text">最左前缀匹配原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyISAM和InnoDB的区别"><span class="nav-number">6.</span> <span class="nav-text">MyISAM和InnoDB的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM简介"><span class="nav-number">6.1.</span> <span class="nav-text">MyISAM简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyISAM特点"><span class="nav-number">6.2.</span> <span class="nav-text">MyISAM特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InnoDB的简介"><span class="nav-number">6.3.</span> <span class="nav-text">InnoDB的简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#InnoDB的特点"><span class="nav-number">6.4.</span> <span class="nav-text">InnoDB的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于二者的对比与总结"><span class="nav-number">6.5.</span> <span class="nav-text">关于二者的对比与总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-二者的常见对比"><span class="nav-number">6.5.1.</span> <span class="nav-text">3.1 二者的常见对比</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-总结"><span class="nav-number">6.5.2.</span> <span class="nav-text">3.2 总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符集及校对规则"><span class="nav-number">7.</span> <span class="nav-text">字符集及校对规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询缓存的使用"><span class="nav-number">8.</span> <span class="nav-text">查询缓存的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库并发控制"><span class="nav-number">9.</span> <span class="nav-text">数据库并发控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC多版本并发控制"><span class="nav-number">9.1.</span> <span class="nav-text">MVCC多版本并发控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC的实现原理"><span class="nav-number">9.1.1.</span> <span class="nav-text">MVCC的实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#补充概念"><span class="nav-number">9.1.2.</span> <span class="nav-text">补充概念</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观并发控制"><span class="nav-number">9.2.</span> <span class="nav-text">乐观并发控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务机制"><span class="nav-number">9.3.</span> <span class="nav-text">事务机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#锁机制与InnoDB锁算法"><span class="nav-number">9.4.</span> <span class="nav-text">锁机制与InnoDB锁算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按照锁的粒度把数据库锁分为表级锁和行级锁"><span class="nav-number">9.4.1.</span> <span class="nav-text">按照锁的粒度把数据库锁分为表级锁和行级锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按照是否可写进一步划分为共享锁-S锁-和排他锁-X锁"><span class="nav-number">9.4.2.</span> <span class="nav-text">按照是否可写进一步划分为共享锁(S锁)和排他锁(X锁)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#另外两种表级锁：IS和IX"><span class="nav-number">9.4.3.</span> <span class="nav-text">另外两种表级锁：IS和IX</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#死锁和避免死锁"><span class="nav-number">9.4.4.</span> <span class="nav-text">死锁和避免死锁</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大表优化"><span class="nav-number">10.</span> <span class="nav-text">大表优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FoBoHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'FoBoHuang',
+            repo: 'FoBoHuang-gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a763f3599c9fb2007ef0bbca66d2b3c39333286b',
+            
+                client_id: 'c3e501c8c072f1bacaab'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '9xUUTOHjWlX7WvJiKb5cmYmD-gzGzoHsz',
+        appKey: 'zxkH0ow2tgRPWt5u3hg96bIS',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

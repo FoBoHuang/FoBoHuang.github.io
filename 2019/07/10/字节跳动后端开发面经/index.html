@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="笔经面经,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="提前批No.1 Java多态的原理？ 答：参考： ​        https://blog.csdn.net/SEU_Calvin/article/details/52191321 ​        https://zhuanlan.zhihu.com/p/27912079  Java 中接口和抽象类的区别？ 答：  抽象类中可以有普通的成员变量，而接口中没有。 抽象类中可以包含静态方法，而接口">
+<meta name="keywords" content="笔经面经">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字节跳动后端开发面经">
+<meta property="og:url" content="https://FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/index.html">
+<meta property="og:site_name" content="凌晨四点的洛杉矶">
+<meta property="og:description" content="提前批No.1 Java多态的原理？ 答：参考： ​        https://blog.csdn.net/SEU_Calvin/article/details/52191321 ​        https://zhuanlan.zhihu.com/p/27912079  Java 中接口和抽象类的区别？ 答：  抽象类中可以有普通的成员变量，而接口中没有。 抽象类中可以包含静态方法，而接口">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z1.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z3.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z2.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z5.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z5.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z4.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z1.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z8.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z9.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z2.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z7.png">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z3.jpg">
+<meta property="og:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z8.jpg">
+<meta property="og:updated_time" content="2019-09-26T10:10:42.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字节跳动后端开发面经">
+<meta name="twitter:description" content="提前批No.1 Java多态的原理？ 答：参考： ​        https://blog.csdn.net/SEU_Calvin/article/details/52191321 ​        https://zhuanlan.zhihu.com/p/27912079  Java 中接口和抽象类的区别？ 答：  抽象类中可以有普通的成员变量，而接口中没有。 抽象类中可以包含静态方法，而接口">
+<meta name="twitter:image" content="https://fobohuang.github.io/2019/07/10/字节跳动后端开发面经/z1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/">
+
+
+
+
+
+  <title>字节跳动后端开发面经 | 凌晨四点的洛杉矶</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">凌晨四点的洛杉矶</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FoBoHuang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="凌晨四点的洛杉矶">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">字节跳动后端开发面经</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-10T23:24:16+08:00">
+                2019-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/" itemprop="url" rel="index">
+                    <span itemprop="name">java面试准备</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/java面试准备/笔经面经/" itemprop="url" rel="index">
+                    <span itemprop="name">笔经面经</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/10/字节跳动后端开发面经/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/10/字节跳动后端开发面经/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="提前批"><a href="#提前批" class="headerlink" title="提前批"></a>提前批</h2><h3 id="No-1"><a href="#No-1" class="headerlink" title="No.1"></a>No.1</h3><ol>
+<li><p>Java多态的原理？</p>
+<p>答：参考：</p>
+<p>​        <a href="https://blog.csdn.net/SEU_Calvin/article/details/52191321" target="_blank" rel="noopener">https://blog.csdn.net/SEU_Calvin/article/details/52191321</a></p>
+<p>​        <a href="https://zhuanlan.zhihu.com/p/27912079" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27912079</a></p>
+</li>
+<li><p>Java 中接口和抽象类的区别？</p>
+<p>答：</p>
+<ul>
+<li>抽象类中可以有普通的成员变量，而接口中没有。</li>
+<li>抽象类中可以包含静态方法，而接口不可以。</li>
+<li>如果抽象类实现接口，则可以把接口中方法映射到抽象类中作为抽象方法而不必实现，而在抽象类的子类中实现接口中方法</li>
+<li>抽象类只能单继承，而接口可以被多个类实现。</li>
+<li>抽象类中可以有构造方法，而接口中不可以。</li>
+<li>抽象类可以但不是必须有抽象属性和抽象方法，但是一旦有了抽象方法，就一定要把这个类声明为抽象类。</li>
+<li>在传统版本上，接口中的所有方法必须是非静态的，且是abstract的，且是public的。普通方法可以不写修饰符，也会默认为public和abstract。但<strong>在java版本1.8中，你可以为方法添加默认方法</strong>，这时候实现类不继承该方法也是可以编译通过的。</li>
+</ul>
+</li>
+<li><p>Java中四种引用的关系？</p>
+<p>答：</p>
+<ul>
+<li><p>强引用：强引用是最普遍的引用，如果一个对象具有强引用，垃圾回收器不会回收该对象，当内存空间不足时，JVM 宁愿抛出 <code>OutOfMemoryError</code>异常；只有当这个对象没有被引用时，才<strong>有可能</strong>会被回收。</p>
+</li>
+<li><p>软引用：如果一个对象只具有软引用，则</p>
+<ul>
+<li>当内存空间足够，垃圾回收器就不会回收它。</li>
+<li>当内存空间不足了，就会回收该对象；</li>
+<li>JVM会优先回收长时间闲置不用的软引用的对象，对那些刚刚构建的或刚刚使用过的“新”软引用对象会尽可能保留；</li>
+<li>如果回收完还没有足够的内存，才会抛出内存溢出异常。只要垃圾回收器没有回收它，该对象就可以被程序使用。</li>
+</ul>
+<p><strong>软引用</strong>可以和一个<strong>引用队列</strong>(<code>ReferenceQueue</code>)联合使用。如果<strong>软引用</strong>所引用对象被<strong>垃圾回收</strong>，<code>JAVA</code>虚拟机就会把这个<strong>软引用</strong>加入到与之关联的<strong>引用队列</strong>中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue&lt;String&gt; referenceQueue = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">String str = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">SoftReference&lt;String&gt; softReference = <span class="keyword">new</span> SoftReference&lt;&gt;(str, 	referenceQueue);</span><br><span class="line">     </span><br><span class="line">str = <span class="keyword">null</span>;</span><br><span class="line"><span class="comment">// Notify GC</span></span><br><span class="line">System.gc();</span><br><span class="line">     </span><br><span class="line">System.out.println(softReference.get()); <span class="comment">// abc</span></span><br><span class="line">     </span><br><span class="line">Reference&lt;? extends String&gt; reference = referenceQueue.poll();</span><br><span class="line">System.out.println(reference); <span class="comment">//null</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：软引用对象是在jvm内存不够的时候才会被回收，我们调用System.gc()方法只是起通知作用，JVM什么时候扫描回收对象是JVM自己的状态决定的。就算扫描到软引用对象也不一定会回收它，只有内存不够的时候才会回收。</p>
+</blockquote>
+<p><strong>应用场景：</strong></p>
+<p>浏览器的后退按钮。按后退时，这个后退时显示的网页内容是重新进行请求还是从缓存中取出呢？这就要看具体的实现策略了。</p>
+<ol>
+<li>如果一个网页在浏览结束时就进行内容的回收，则按后退查看前面浏览过的页面时，需要重新构建；</li>
+<li>如果将浏览过的网页存储到内存中会造成内存的大量浪费，甚至会造成内存溢出。</li>
+</ol>
+<p>这时候就可以使用软引用，很好的解决了实际的问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取浏览器对象进行浏览</span></span><br><span class="line">Browser browser = <span class="keyword">new</span> Browser();</span><br><span class="line"><span class="comment">// 从后台程序加载浏览页面</span></span><br><span class="line">BrowserPage page = browser.getPage();</span><br><span class="line"><span class="comment">// 将浏览完毕的页面置为软引用</span></span><br><span class="line">SoftReference softReference = <span class="keyword">new</span> SoftReference(page);</span><br><span class="line">     </span><br><span class="line"><span class="comment">// 回退或者再次浏览此页面时</span></span><br><span class="line"><span class="keyword">if</span>(softReference.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="comment">// 内存充足，还没有被回收器回收，直接获取缓存</span></span><br><span class="line">    page = softReference.get();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 内存不足，软引用的对象已经回收</span></span><br><span class="line">    page = browser.getPage();</span><br><span class="line">    <span class="comment">// 重新构建软引用</span></span><br><span class="line">    softReference = <span class="keyword">new</span> SoftReference(page);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>弱引用：弱引用与软引用的区别在于：<strong>只具有弱引用的对象拥有更短暂的生命周期，它只能生存到下一次垃圾收集发生之前</strong>。当垃圾回收器扫描到只具有弱引用的对象时，无论当前内存空间是否足够，都会回收它。不过，由于垃圾回收器是一个优先级很低的线程，因此不一定会很快发现那些只具有弱引用的对象。</p>
+<blockquote>
+<p>注意：如果一个对象是偶尔(很少)的使用，并且希望在使用时随时就能获取到，但又不想影响此对象的垃圾收集，那么你应该用Weak Reference来记住此对象。</p>
+</blockquote>
+</li>
+<li><p>虚引用：<strong>虚引用</strong>顾名思义，就是<strong>形同虚设</strong>。与其他几种引用都不同，<strong>虚引用</strong>并<strong>不会</strong>决定对象的<strong>生命周期</strong>。如果一个对象<strong>仅持有虚引用</strong>，那么它就和<strong>没有任何引用</strong>一样，在任何时候都可能被垃圾回收器回收。</p>
+<p><strong>应用场景：</strong></p>
+<p><strong>虚引用</strong>主要用来<strong>跟踪对象</strong>被垃圾回收器<strong>回收</strong>的活动。 <strong>虚引用</strong>与<strong>软引用</strong>和<strong>弱引用</strong>的一个区别在于：</p>
+<blockquote>
+<p>虚引用必须和引用队列(ReferenceQueue)联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line"><span class="comment">// 创建虚引用，要求必须与一个引用队列关联</span></span><br><span class="line">PhantomReference pr = <span class="keyword">new</span> PhantomReference(str, queue);</span><br></pre></td></tr></table></figure>
+<p>程序可以通过判断引用<strong>队列</strong>中是否已经加入了<strong>虚引用</strong>，来了解被引用的对象是否将要进行<strong>垃圾回收</strong>。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的<strong>内存被回收之前</strong>采取必要的行动。</p>
+<p><strong>下面通过一张表格来说明它们的回收时间、用途：</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z1.png" alt="z1"></p>
+<p>参考：<a href="https://juejin.im/post/5b82c02df265da436152f5ad#heading-3" target="_blank" rel="noopener">https://juejin.im/post/5b82c02df265da436152f5ad#heading-3</a></p>
+</li>
+</ul>
+</li>
+<li><p>Java多线程实现的几种方式？Runnable接口有哪些优势？</p>
+<p>答：</p>
+<ul>
+<li><p>通过继承Thread类来实现</p>
+</li>
+<li><p>通过实现Runnable接口</p>
+</li>
+<li><p>通过内部类实现(有些情况我们的线程就想执行一次，以后就用不到了)</p>
+</li>
+<li><p>基于线程池的方式实现</p>
+</li>
+<li><p>带有返回值的线程实现方式，步骤如下：</p>
+<ul>
+<li><strong>创建一个类实现Callable接口</strong>，实现call方法。这个接口类似于Runnable接口，但比Runnable接口更加强大，增加了异常和返回值。</li>
+<li><strong>创建一个FutureTask，指定Callable对象</strong>，做为线程任务。</li>
+<li><strong>创建线程，指定线程任务</strong></li>
+<li>启动线程</li>
+</ul>
+<p>Runnable接口的实现优势有：</p>
+<ul>
+<li>使用接口的方式可以让我们的程序降低耦合度，Runnable就是一个线程任务，线程任务和线程的控制分离，那么<strong>一个线程任务可以提交给多个线程来执行</strong>。比如车站的售票窗口，每个窗口可以看做是一个线程，他们每个窗口做的事情都是一样的，也就是售票。这样我们程序在模拟现实的时候就可以定义一个售票任务，让多个窗口同时执行这一个任务。那么如果要改动任务执行计划，只要修改线程任务类，所有的线程就都会按照修改后的来执行。相比较继承Thread类的方式来创建线程的方式，实现Runnable接口是更为常用的。</li>
+<li>java不允许多继承，因此实现了Runnable接口的类可以再继承其他类。</li>
+</ul>
+<p>参考：<a href="https://blog.csdn.net/king_kgh/article/details/78213576" target="_blank" rel="noopener">https://blog.csdn.net/king_kgh/article/details/78213576</a></p>
+</li>
+</ul>
+</li>
+<li><p>Java中堆栈的区别？堆栈的增长方向有哪些不同？</p>
+<p>答：</p>
+<ul>
+<li><strong>堆中主要存放new出来的实例变量和数组</strong>，<strong>栈描述的是Java方法执行的内存模型</strong>，而栈是由一个个栈帧组成，而每个栈帧中都拥有：局部变量表、操作数栈、动态链接、方法出口信息。局部变量表主要存放了编译器可知的<strong>各种数据类型(boolean、byte、char、short、int、float、long、double)、对象引用</strong>(reference类型，它不同于对象本身，可能是一个指向对象起始地址的引用指针，也可能是指向一个代表对象的句柄或其他与此对象相关的位置)。</li>
+<li>对比堆和栈，只要把握一个重要的信息，new的对象是存储在堆中的，但为了存取方便，会在栈中声明一个引用变量指向堆中的对象，这样存取方便而且速度快。另一方面，栈中的对象超过作用域即被释放，Java会立即释放掉内存空间另作他用；而堆中即使超出变量的作用范围也不会变成垃圾，只有在没有引用变量指向它时会变成垃圾，但又不会立刻被回收，只有在一个不确定的时间才会被垃圾回收器回收掉，这也就是为什么Java会比较占用内存的原因了。再一点还要注意，就是被static修饰的变量，它是在程序启动之初就会被分配内存，它的生命周期会一直到程序结束，所以使用static一定要慎重。</li>
+</ul>
+<p>栈的增长方向是从高地址到地址，堆的增长方向是从低地址到高地址<strong>(简化的Linux/x86模型)</strong>。</p>
+</li>
+<li><p>输入一个url，发生了什么？</p>
+<p>答：</p>
+<ol>
+<li>浏览器查询DNS，获取域名对应的IP地址，即是服务器的IP地址。其中查询DNS的过程<strong>先对浏览器自身DNS缓存的查询，浏览器自身没有缓存对应的DNS，就去查询操作系统中的DNS缓存，操作系统中没有，就去读取本地的Host文件。如果上述都找不到对应的DNS缓存，就去本地域名服务器查询对应的DNS缓存。</strong></li>
+<li>浏览器获取到域名对应的IP地址后，就向服务器<strong>发起三次握手</strong>，建立连接。</li>
+<li>TCP/IP连接建立后，浏览器向服务器发送HTTP请求。</li>
+<li>服务器收到请求后，根据路径参数映射到特定的请求处理器进行处理，并将处理结果及响应的视图返回给浏览器。</li>
+<li>浏览器解析视图，如果遇上js、css等文件的引用，则继续向服务器发送资源请求。</li>
+<li>浏览器根据资源、数据进行渲染，呈现一个完整的页面。</li>
+<li>最终，浏览器向服务器发起四次挥手，关闭连接。</li>
+</ol>
+<p>这个简单的过程<strong>涉及到的协议有：DNS协议、TCP协议、IP协议、OSPF路由选择协议、ARP协议、HTTP协议。</strong></p>
+</li>
+<li><p>ping的原理是什么？</p>
+<p>答：</p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z3.png" alt="z3"></p>
+<p>PING过程的两种情况，一种是在同一网段内，一种是在不同网段内：</p>
+<ul>
+<li><p>在同一网段内(主机Aping主机B)：</p>
+<ul>
+<li><p>如果主机A当中缓存有主机B的MAC地址(即主机A当中的MAC地址表有B的MAC地址)，就会直接将这个MAC地址封装到ICMP报文中向主机B发送，当主机B收到了这个报文后，发现是主机A的ICPM回显请求，就按同样的格式，将ICMP的回显报文发送回去给主机A，这样就完成了同一网段内的ping过程。</p>
+</li>
+<li><p>如果主机A的MAC地址表没有B的MAC地址，则会向外发送一个ARP广播报文。交换机会收到这个报文后，交换机有学习MAC地址的功能，所以他会检索自己有没有保存主机B的MAC地址，如果有，就返回给主机A，如果没有，就会向所有端口发送ARP广播，其它主机收到后，发现不是在找自己，就纷纷丢弃了该报文，不去理会。直到主机B收到了报文后，就立即响应，我的MAC地址是多少，同时学到主机A的MAC地址,并按同样的ARP报文格式返回给主机A。这时候主机A学习到了主机B的MAC地址，就把这个MAC地址封装到ICMP协议的二层报文中向主机B发送。当主机B收到了这个报文后，发现是主机A的ICPM回显请求，就按同样的格式，将ICMP的回显报文发送回去给主机A，这样就完成了同一网段内的ping过程。</p>
+</li>
+<li><p>下面是ICMP报文和ICMP回显报文：</p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z2.png" alt="z2"></p>
+</li>
+</ul>
+</li>
+<li><p>在不同网段内(主机Aping主机C)，如果主机A要ping主机C,那么主机A发现主机C的IP和自己不是同一网段,他就去找<strong>网关</strong>转发：</p>
+<ul>
+<li><p>如果主机A的MAC地址表中有网关的MAC地址，则直接将这个MAC地址封装成ICMP报文发送给网关路由器。<img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z5.png" alt="z5">当路由器收到主机A发过来的ICMP报文，发现目的地址是其本身的MAC地址，根据目的IP2.1.1.1，查路由表，发现2.1.1.1/24的路由表项，<strong>得到一个出口指针，这个出口指针意指主机C的MAC地址</strong>。然后去掉原来的MAC头部，加上自己的MAC地址向主机C转发(<strong>如果网关也没有主机C的MAC地址，还是要像前面一个步骤一样，ARP广播一下即可相互学习。路由器2端口能学到主机C的MAC地址，主机C也能学到路由器2端口的MAC</strong>)。最后，在主机C已学到路由器2端口MAC，路由器2端口转发给路由器1端口，路由1端口学到主机A的MAC的情况下，他们就不需要再做ARP解析，就将ICMP的回显报文发送回去。</p>
+</li>
+<li><p>如果主机A的MAC地址表没有网关的MAC地址，<strong>会先发送一个ARP广播，学到网关的MAC，再发封装ICMP报文给网关路由器</strong>。<img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z5.png" alt="z5">后面的过程跟上述一样。</p>
+</li>
+<li><p>下面是ICMP报文和ICMP回显报文：</p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z4.png" alt="z4"></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/f2006116/article/details/51159895" target="_blank" rel="noopener">https://blog.csdn.net/f2006116/article/details/51159895</a></p>
+<p><a href="https://baike.baidu.com/item/ICMP" target="_blank" rel="noopener">https://baike.baidu.com/item/ICMP</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/地址解析协议" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AE</a></p>
+</li>
+<li><p>http1.0和http1.1之间有什么区别？</p>
+<p>答：</p>
+<ul>
+<li>HTTP1.1支持长连接和请求的流水线处理，并且默认使用长连接。而HTTP1.0默认使用短连接，需要在request中增加“Connection：keep-alive”，header才能支持长连接。<ul>
+<li>流水线的方式处理请求：客户端每遇到一个对象引用就立即发出一个请求，而不必等到收到前一个响应之后才能发出下一个请求。</li>
+</ul>
+</li>
+<li>分块传输数据：发送方将消息实体分割成为任意大小的组块，并<strong>单独</strong>地发送。在每个组块之前，加上该组块的长度，使接收方可以确保自己能够完整地接收到这个组块。并且，在组块最末尾的地方，发送方生成了长度为零的组块，接收方可据此判断整条消息是否已安全地传输完毕。</li>
+<li>HTTP1.1新增了一个状态码 100 Continue，用于客户端在发送POST数据给服务器前，<strong>征询服务器的情况，看服务器是否处理POST的数据</strong>。</li>
+</ul>
+</li>
+<li><p>HTTP的请求头里都包含了些什么？HTTP如何发起请求？</p>
+<p>答：</p>
+<p><strong>HTTP报文由3部分组成(请求行+请求头+请求体)</strong></p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z1.jpg" alt="z1"></p>
+<ul>
+<li><p>请求行：包括请求方法、请求URI、HTTP请求的协议及版本。</p>
+<p>方法-URI-协议/版本：如GET /index.jsp HTTP/1.1</p>
+<ul>
+<li>GET就是请求方法，根据HTTP标准，HTTP协议请求可以使用多种请求方法。HTTP 1.1支持七种请求方法：GET、POST、HEAD、OPTIONS、PUT、DELETE和TRACE等。常用的为请求方法是GET和POST。</li>
+<li>/index.jsp表示URI，<strong>URI指定了要访问的网络资源</strong>。</li>
+<li>HTTP/1.1是协议和协议的版本。</li>
+</ul>
+</li>
+<li><p>请求头：即HTTP请求的报文头。报文头包含若干个属性，格式为<strong>“属性名:属性值”</strong>(键值对)，服务端据此获取客户端的信息。</p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z8.png" alt="z8"></p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z9.png" alt="z9"></p>
+</li>
+<li><p>请求体：即HTTP请求的报文体。它将一个页面表单中的组件值通过param1=value1&amp;param2=value2的键值对形式编码成一个格式化串，它承载多个请求参数的数据。不但报文体可以传递请求参数，请求URL也可以通过类似于“/chapter15/user.html? param1=value1&amp;param2=value2”的方式传递请求参数。 </p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z2.jpg" alt="z2"></p>
+<p>下面列举常见的HTTP请求报文头属性</p>
+<ul>
+<li><p>Accept：请求报文可通过一个“Accept”报文头属性告诉服务端 客户端接受什么类型的响应。 </p>
+<p>如下报文头相当于告诉服务端，俺客户端能够接受的响应类型仅为纯文本数据啊，你丫别发其它什么图片啊，视频啊过来，那样我会歇菜的~~~： </p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Accept:text/plain</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Cookie：客户端的Cookie就是通过这个报文头属性传给服务端的哦！如下所示：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cookie</span>: $Version=1; Skin=new;jsessionid=5F4771183629C9834F8382E23BE13C4C</span><br></pre></td></tr></table></figure>
+<p>服务端是怎么知道客户端的多个请求是隶属于一个Session呢？</p>
+<p>注意到后台的那个jsessionid=5F4771183629C9834F8382E23BE13C4C木有？原来就是通过HTTP请求报文头的Cookie属性的jsessionid的值关联起来的！(当然也可以通过重写URL的方式将会话ID附带在每个URL的后面哦)</p>
+</li>
+<li><p>Referer：表示这个请求是从哪个URL过来的。</p>
+<p>假如你通过google搜索出一个商家的广告页面，你对这个广告页面感兴趣，鼠标一点发送一个请求报文到商家的网站，这个请求报文的Referer报文头属性值就是<a href="http://www.google.com。" target="_blank" rel="noopener">http://www.google.com。</a></p>
+<blockquote>
+<p>唐僧到了西天.<br>如来问：侬是不是从东土大唐来啊？<br>唐僧：厉害！你咋知道的！<br>如来：哈哈，我偷看了你的Refere。</p>
+</blockquote>
+</li>
+<li><p><strong>Cache-Control</strong>：对缓存进行控制，如一个请求希望响应返回的内容在客户端要被缓存一年，或不希望被缓存就可以通过这个报文头达到目的。 </p>
+<p>如以下设置，相当于让服务端将对应请求返回的响应内容不要在客户端缓存： </p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Cache-Control</span>: no-cache</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他请求报文头属性：</p>
+<p>参见：<a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/List_of_HTTP_header_fields</a> </p>
+</li>
+</ul>
+<p><strong>如何访问请求报文头</strong></p>
+<p>由于请求报文头是客户端发过来的，服务端当然只能读取了。</p>
+<p>以下是HttpServletRequest一些用于读取请求报文头的API： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. <span class="comment">//获取请求报文中的属性名称  </span></span><br><span class="line"><span class="number">2</span>. java.util.Enumeration&lt;java.lang.String&gt;   getHeaderNames();  </span><br><span class="line"><span class="number">3</span>.   </span><br><span class="line"><span class="number">4</span>. <span class="comment">//获取指定名称的报文头属性的值  </span></span><br><span class="line"><span class="number">5</span>. java.lang.<span class="function">String <span class="title">getHeader</span><span class="params">(java.lang.String name)</span></span></span><br></pre></td></tr></table></figure>
+<p>由于一些请求报文头属性“太著名”了，因此HttpServletRequest为它们提供了VIP的API： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">1</span>. <span class="comment">//获取报文头中的Cookie(读取Cookie的报文头属性）  </span></span><br><span class="line"><span class="number">2</span>.  Cookie[]   getCookies() ;  </span><br><span class="line"><span class="number">3</span>.   </span><br><span class="line"><span class="number">4</span>. <span class="comment">//获取客户端本地化信息（读取 Accept-Language 的报文头属性）  </span></span><br><span class="line"><span class="number">5</span>. java.util.<span class="function">Locale    <span class="title">getLocale</span><span class="params">()</span>   </span></span><br><span class="line"><span class="function">6.   </span></span><br><span class="line"><span class="function">7. <span class="comment">//获取请求报文体的长度（读取Content-Length的报文头属性）  </span></span></span><br><span class="line"><span class="function">8. <span class="keyword">int</span> <span class="title">getContentLength</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+<p>HttpServletRequest可以通过 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">HttpSession <span class="title">getSession</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+<p>获取请求所关联的HttpSession,其内部的机理是通过读取请求报文头中Cookie属性的JSESSIONID的值，在服务端的一个会话Map中，根据这个JSESSIONID获取对应的HttpSession的对象。 </p>
+</li>
+</ul>
+<p><strong>HTTP是如何发起请求的：</strong></p>
+<p>DNS域名解析、三次握手建立连接、发起HTTP请求。</p>
+<p>参考：</p>
+<p><a href="https://blog.csdn.net/u010256388/article/details/68491509" target="_blank" rel="noopener">https://blog.csdn.net/u010256388/article/details/68491509</a></p>
+<p><a href="https://blog.csdn.net/yezitoo/article/details/78193794" target="_blank" rel="noopener">https://blog.csdn.net/yezitoo/article/details/78193794</a></p>
+</li>
+<li><p>HashMap的实现原理？</p>
+<p>答：</p>
+<ul>
+<li>JDK1.7：HashMap底层数据结构为数组+链表，使用一个Entry数组存储数据，用key的hash值取模来决定key会被存放数组中的哪个位置，而hash值由key的hashcode通过某些运算得来。如果key的hash值取模后的结果相同，那些这些key会被放到数组中的同一个位置，这时候就会发生冲突。因此，相同的元素在同一个数组位置会形成链表。在hashcode特别差的情况下，冲突会频繁发生，这时候形成的链表就会很长，那么put/get操作可能会遍历整个链表，时间复杂度会退化到O(n)。</li>
+<li>JDK1.8：HashMap底层数据结构为数组+链表+红黑树，使用Node数组存储数据，但这个Node结点可能是链表结构也可能是红黑树结构；与JDK1.7不同的是，如果插入同一位置的元素超过8个，就会调用treeifyBin函数，将链表转换为红黑树。那么即使hashcode完全相同，由于红黑树的特点，查找某个特定原色，也只需要O(logn)的开销，也就是说put/get操作的时间复杂度最差只有O(logn)。</li>
+</ul>
+</li>
+<li><p>进程的五种状态以及如何进行切换的？</p>
+<p>答：</p>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z7.png" alt="z7"></p>
+<ul>
+<li>就绪 -&gt; 运行：对就绪状态的进程，当进程调度程序<strong>按一种选定的策略从中选中一个就绪进程</strong>，为之分配了CPU(也叫处理机)后，该进程便由就绪状态变为运行状态；</li>
+<li>运行 -&gt; 阻塞：<strong>正在执行的进程因发生某等待事件而无法执行</strong>，则进程由执行状态变为阻塞状态。如下：<ul>
+<li>进程提出<strong>输入/输出请求(IO请求)</strong>而变成等待外部设备传输信息的状态；</li>
+<li>进程<strong>申请资源（主存空间或外部设备）得不到满足</strong>时变成等待资源状态；</li>
+<li>进程运行中<strong>出现了故障（程序出错或主存储器读写错等）变成等待干预状态</strong>等等。</li>
+</ul>
+</li>
+<li>阻塞 -&gt; 就绪：处于阻塞状态的进程，在其等待的事件已经发生，如输入/输出操作完成，资源得到满足或错误处理完毕时，处于等待状态的进程并不马上转入运行状态，而是先转入就绪状态，然后再由系统进程调度程序在适当的时候将该进程转为运行状态；</li>
+<li>运行 -&gt; 就绪：正在执行的进程，<strong>因时间片用完而被暂停执行，或在采用抢先式优先级调度算法的系统中,当有更高优先级的进程要运行而被迫让出处理机时</strong>，该进程便由执行状态转变为就绪状态。</li>
+</ul>
+</li>
+<li><p>进程之间的通信方式？</p>
+<p>答：</p>
+<ul>
+<li>管道（pipe）：管道是一种<strong>半双工</strong>的通信方式，数据只能单向流动，而且只能在具有血缘关系的进程间使用。进程的血缘关系通常指父子进程关系。</li>
+<li>有名管道（named pipe）：有名管道也是<strong>半双工</strong>的通信方式，但是它允许无亲缘关系进程间通信。</li>
+<li>信号量（semophore）：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它通常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</li>
+<li>消息队列（message queue）：<strong>消息队列是由消息组成的链表，存放在内核中，并由消息队列标识符标识。消息队列克服了信号传递信息少，管道只能承载无格式字节流以及缓冲区大小受限等缺点。</strong></li>
+<li>信号（signal）：信号是一种比较复杂的通信方式，<strong>用于通知接收进程某一事件已经发生</strong>。</li>
+<li>共享内存（shared memory）：共享内存就是<strong>映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问</strong>。共享内存是<strong>最快</strong>的IPC方式，它是针对其他进程间的通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号量配合使用，来实现进程间的同步和通信。</li>
+<li>套接字（socket）：套接口也是一种进程间的通信机制，与其他通信机制不同的是它可以用于不同及其间的进程通信。</li>
+</ul>
+</li>
+<li><p>电梯调度算法？</p>
+<p>答：</p>
+<ul>
+<li>先来先服务(FIFO)</li>
+<li>最短寻道时间优先(SSTF)</li>
+<li>扫描算法：<ul>
+<li>SCAN算法：也就是很形象的电梯调度算法。比如磁盘扫描，先按照一个方向，从当前磁道向内磁道方向访问(磁道减少的方向)，当访问到最内层的磁道号以后，就会反向，向着磁道增加的方向继续访问未访问过的磁道号。这就好比坐电梯，中间一直往下面接人，下面没人的时候反向，向上去接人。</li>
+<li>CSCAN算法：循环扫描算法，同SCAN算法不同的是，这个算法扫描到最里面的磁道后，会立即跳到最外层的磁道，然后按照原来访问的方向去扫描。故也称单向扫描调度算法。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>String、StringBuffer、StringBuilder的区别？</p>
+<p>答： </p>
+<ul>
+<li>首先明确一点，String是不可变的对象，而StringBuffer和StringBuilder是可变的字符序列，他们两个都是类似于String的字符串缓冲区。两者不同的是StringBuffer是线程安全的，而StringBuilder是非线程安全的。</li>
+<li>每次对String类型的对象进行改变的时候其实都等于新生成了一个新的String对象，然后将栈里的指针(引用)指向了新的String对象。而如果是使用StringBuffer或者StringBuilder的话，每次改变都是对原有对象本身进行操作。</li>
+<li>初始化的方式不同，StringBuffer和StringBuilder只能用构造函数的形式进行初始化，而String对象除了可以用构造函数进行初始化以外，还可以直接赋值。</li>
+</ul>
+</li>
+<li><p>new一个String对象会产生几个对象？</p>
+<p>答：</p>
+<p>这种情况首先应该明白堆栈存储的是字符串对象和字符串的对象引用，而字符串常量池是在方法区中。</p>
+<p>下面我们看一段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str1 = “abc”;</span><br><span class="line">String str2 = “abc”;</span><br><span class="line">String str3 = “abc”;</span><br><span class="line">String str4 = <span class="keyword">new</span> String(“abc”);</span><br><span class="line">String str5 = <span class="keyword">new</span> String(“abc”);</span><br></pre></td></tr></table></figure>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z3.jpg" alt="z3"></p>
+<p><strong>分析：</strong>我们在new str4这个对象的时候，会先去常量池中查找是否有“abc”这个字面量。如果有，则不做任何事情，没有则创建对应的常量对象。然后会在堆中new一个String对象，<strong>通过new操作符创建的字符串对象不指向字符串池中的任何对象，但是可以通过使用字符串的intern()方法来指向其中的某一个</strong>。最后，将堆中对象的地址赋值给str4，创建一个引用。（上图中堆和常量池中的指向只是一种对应关系）</p>
+<p><strong>所以，常量池中没有“abc”字面量则创建两个对象，否则创建一个对象，以及创建一个引用。</strong></p>
+<blockquote>
+<p>拓展：</p>
+<p>根据字面量，往往会提出这样的变式题：</p>
+<p><strong>String str1 = new String(“A”+”B”) ; 会创建多少个对象?</strong><br><strong>String str2 = new String(“ABC”) + “ABC” ; 会创建多少个对象?</strong></p>
+<p>str1：<br>字符串常量池：”A”,”B”,”AB” : 3个<br>堆：new String(“AB”) ：1个<br>引用： str1 ：1个<br>总共 ： 4个</p>
+<p>str2 ：<br>字符串常量池：”ABC” : 1个<br>堆：new String(“ABC”) ：1个<br>引用： str2 ：1个<br>总共 ： 2个</p>
+</blockquote>
+<p>参考：<a href="https://segmentfault.com/a/1190000009888357" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009888357</a></p>
+</li>
+<li><p>JDK动态代理和CGLIB动态代理的区别？</p>
+<p>答：</p>
+<ul>
+<li><p>JDK动态代理的前提是目标类有要实现的接口，而CGLIB动态代理的前提是目标类不能被final修饰，因为被final修饰的类不能被继承。由于CGLIB动态代理的实质是<strong>动态生成的子类继承了目标类</strong>，在运行期动态地在内存中创建一个子类。</p>
+</li>
+<li><p>JDK动态代理的实质是<strong>动态地生成一个类去实现目标类所实现的接口</strong>，而<strong>CGLIB动态代理的实质是动态生成的子类继承了目标类</strong>，在运行期动态地在内存中创建一个子类。</p>
+</li>
+<li><p><strong>JDK动态代理是不需要第三方库支持的</strong>，只需要JDK环境就可以代理，创建JDK代理工厂的条件：</p>
+<ul>
+<li><p>代理工厂类实现InvocationHandler接口;</p>
+</li>
+<li><p>使用<strong>java.lang.reflect包中的Proxy类</strong>提供的newProxyInstance方法来生成代理对象;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Proxy.newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>被代理类（目标类）一定要实现接口。</p>
+</li>
+</ul>
+</li>
+<li><p>CGLIB的实现依赖于cglib类库，创建CGLIB代理工厂的条件：</p>
+<ul>
+<li><p>通过cglib类库提供的Enhancer类的create静态方法来创建代理类;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enhancer.create(Class type, Callback callback)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>type是<strong>原对象的Class对象</strong></li>
+<li>callback是<strong>回调方法接口</strong></li>
+</ul>
+</li>
+<li><p>cglib类库中的callback方法通过实现它的MethodInterceptor接口的intercept方法来进行回调，因此<strong>代理工厂类需要实现MethodInterceptor接口</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, java.lang.reflect.Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>obj是<strong>被代理的对象</strong></li>
+<li>method是<strong>执行的方法</strong></li>
+<li>args是<strong>执行方法的参数数组</strong></li>
+<li><strong>proxy用来执行未被拦截的原方法</strong></li>
+</ul>
+</li>
+<li><p>被代理类（目标类）不能被final所修饰。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>参考：<a href="https://blog.csdn.net/yhl_jxy/article/details/80635012" target="_blank" rel="noopener">https://blog.csdn.net/yhl_jxy/article/details/80635012</a></p>
+</li>
+<li><p>Spring AOP的实现原理是什么？</p>
+<p>答：</p>
+<p>其实真要说AOP的实现原理，很难说的上来，但是我知道动态代理类的生成是依据JVM反射等机制动态生成的，并且代理类和委托类的关系是在运行时才确定的。而如果是从动态代理的两种方式的来讲，无非是看JDK和CGLIB动态代理是怎么实现的。（Spring AOP使用的是动态代理）接下来就要去看两种方式的实现区别和实现原理，并且清除的阐述代理模式是怎么运作的。</p>
+</li>
+<li><p>为什么重写equals时必须重写hashCode方法？</p>
+<p>答：</p>
+<p>简单来说，就是假如我们要比较HashMap中的key是否相等，我们首先会调用key的hashcode()方法，而没有重写过的hashcode()方法是这个对象在内存中的地址。重写hashcode()之后，若两个key的hashcode值一样。此时并不能说明这两个key是相等的(相同含义)，这时候要调用equals()方法比较两个key对象的内容是否一样。如果我们没有重写equals()方法，则比较的是两个对象的内存地址是否相等(即是否指向同一个地方)，就达不到比较两个key对象的意义，因为不同key对象equals(没有重写)的话一定会返回false。</p>
+</li>
+<li><p>算法题：</p>
+<ul>
+<li><p>判断一颗二叉树是否对称</p>
+</li>
+<li><p>松鼠捡豆（动态规划）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//松鼠捡豆</span></span><br><span class="line">	<span class="comment">//max数组表示当前元素能捡到的豆的最大数量</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMostBean</span><span class="params">(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span>[][] bean)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span>[][] max = <span class="keyword">new</span> <span class="keyword">int</span>[row][col];</span><br><span class="line">		max[<span class="number">0</span>][<span class="number">0</span>] = bean[<span class="number">0</span>][<span class="number">0</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; row ; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span> ; j &lt; col ; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(i == <span class="number">0</span> &amp;&amp; j &gt; <span class="number">0</span>)</span><br><span class="line">					max[i][j] = max[i][j-<span class="number">1</span>] + bean[i][j];</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(i &gt; <span class="number">0</span> &amp;&amp; j == <span class="number">0</span>)</span><br><span class="line">					max[i][j] = max[i-<span class="number">1</span>][j] + bean[i][j];</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(i &gt; <span class="number">0</span> &amp;&amp; j &gt; <span class="number">0</span>)</span><br><span class="line">					max[i][j] = bean[i][j] + Math.max(max[i-<span class="number">1</span>][j], max[i][j-<span class="number">1</span>]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> max[row-<span class="number">1</span>][col-<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="No-2"><a href="#No-2" class="headerlink" title="No.2"></a>No.2</h3><ol>
+<li><p>讲一讲你对volatile关键字的理解</p>
+<p>答：</p>
+<ul>
+<li>保证被修饰的变量对所有线程的可见性，即当一条线程修改了这个变量时，其他线程也是可以立即得知的，而普通变量的修改是需要通过工作内存和主内存之间的通信来完成。</li>
+<li>禁止指令重排序。现代处理器采用了指令级并行技术来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句<strong>对应机器指令的执行顺序</strong>。</li>
+</ul>
+<blockquote>
+<p>volatile关键字保证的是一个线程对于它的会立即刷新到主内存中去，并置其他线程的副本为无效，但是并不保证对volatile变量的操作都具有原子性。</p>
+</blockquote>
+</li>
+<li><p>讲一讲HashMap与HashTable的区别？多个线程同时使用一个HashMap时你觉得会发生什么？</p>
+<p>答：</p>
+<p>区别：</p>
+<ul>
+<li>HashMap是线程不安全的，而HashTable是线程安全的。</li>
+<li>HashMap最多只允许一条记录的键值为Null，允许多条记录的值为Null；HashTable不允许记录的键或值为Null。</li>
+<li>HashTable是基于Dictionary类，而HashMap是基于AbstractMap。</li>
+</ul>
+</li>
+</ol>
+<p>   多个线程同时使用一个HashMap，会出现链表闭环的情况(多个线程同时put数据)。这时候如果进行get数据，就会进入死循环。</p>
+<p>   多个线程同时使用一个HashMap，会出现数据覆盖的问题。举个栗子，HashMap进行put操作时是先计算hashCode找到桶，然后遍历桶内的链表找到插入位置插入。如果2个线程t1、t2分别put一个hashCode相同的元素e1、e2，就可能导致找到相同的插入位置(a)，t1里a.next=e1，t2里a.next=e2，就只有一个数据保留了下来，丢了一个。</p>
+<ol start="3">
+<li><p>讲讲你对ThreadLocal的理解？（在多线程环境下，如何防止自己的变量被其它线程篡改？）</p>
+<p>答：</p>
+<p>ThreadLocal顾名思义可以理解为线程本地变量，用来<strong>维护线程中的变量不受其他线程的干扰</strong>。也就是说如果定义了一个ThreadLocal，每个<strong>线程</strong>往这个ThreadLocal中的读写是隔离的，互相之间不会影响。</p>
+<ul>
+<li><p><strong>它大致的实现思路是怎样的？</strong></p>
+<p>Thread类有一个类型为ThreadLocal.ThreadLocalMap的实例变量threadLocals，也就是说<strong>每个线程有一个自己的ThreadLocalMap</strong>。ThreadLocalMap有自己的独立实现，可以简单地将它的key视作ThreadLocal，value为代码中放入的值（实际上key并不是ThreadLocal本身，而是它的一个弱引用）。每个线程在往某个ThreadLocal里塞值的时候，都会往自己的ThreadLocalMap里存，读也是以某个ThreadLocal作为引用，在自己的map里找对应的key，从而实现了线程隔离。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">ThreadLocalMap <span class="title">getMap</span><span class="params">(Thread t)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t.threadLocals;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>说明：</strong>可以发现，每个线程中都有一个<code>ThreadLocalMap</code>数据结构，当执行set方法时，其值是保存在当前线程的<code>threadLocals</code>变量中，当执行set方法时，是从当前线程的<code>threadLocals</code>变量获取。</p>
+<p>所以在线程1中set的值，对线程2来说是摸不到的，而且在线程2中重新set的话，也不会影响到线程1中的值，保证了线程之间不会相互干扰。</p>
+<p><strong>一个ThreadLocal只能保存一个键值对，但是一个线程可以创建多个ThreadLocal对象，并且各个线程之间的数据互不干扰。</strong></p>
+<p>在ThreadLoalMap中，也是初始化一个大小16的Entry数组，Entry对象用来保存每一个key-value键值对，只不过这里的key永远都是ThreadLocal对象，是不是很神奇，通过ThreadLocal对象的set方法，结果把ThreadLocal对象自己当做key，放进了ThreadLoalMap中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始容量，必须为2的幂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Entry表，大小必须为2的幂</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> Entry[] table;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 表里entry的个数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 重新分配表大小的阈值，默认为0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> threshold; </span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设置resize阈值以维持最坏2/3的装载因子</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setThreshold</span><span class="params">(<span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    threshold = len * <span class="number">2</span> / <span class="number">3</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 环形意义的下一个索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">nextIndex</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ((i + <span class="number">1</span> &lt; len) ? i + <span class="number">1</span> : <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 环形意义的上一个索引</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">prevIndex</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ((i - <span class="number">1</span> &gt;= <span class="number">0</span>) ? i - <span class="number">1</span> : len - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="//FoBoHuang.github.io/2019/07/10/字节跳动后端开发面经/z8.jpg" alt="z8"></p>
+<p>这里需要注意的是，<strong>ThreadLoalMap的Entry是继承WeakReference</strong>，和HashMap很大的区别是，Entry中没有next字段，所以就不存在链表的情况了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">java</span>.<span class="title">lang</span>.<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// 往ThreadLocal里实际塞入的值</span></span><br><span class="line">    Object value;</span><br><span class="line"></span><br><span class="line">    Entry(java.lang.ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">        <span class="keyword">super</span>(k);</span><br><span class="line">        value = v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>为什么要弱引用？</p>
+<p>因为如果这里使用普通的key-value形式来定义存储结构，实质上就会造成节点的生命周期与线程强绑定，<strong>只要线程没有销毁，那么节点在GC分析中一直处于可达状态</strong>，没办法被回收，而程序本身也无法判断是否可以清理节点。弱引用是Java中四档引用的第三档，比软引用更加弱一些，如果一个对象没有强引用链可达，那么一般活不过下一次GC。当某个ThreadLocal已经没有强引用可达，则随着它被垃圾回收，在ThreadLocalMap里对应的Entry的<strong>键值</strong>会失效，这<strong>为ThreadLocalMap本身的垃圾清理提供了便利</strong>。</p>
+</li>
+<li><p>内存泄漏</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">    Object value;</span><br><span class="line"></span><br><span class="line">    Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">        <span class="keyword">super</span>(k);</span><br><span class="line">        value = v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过之前的分析已经知道，当使用ThreadLocal保存一个value时，会在ThreadLocalMap中的数组插入一个Entry对象，按理说key-value都应该以强引用保存在Entry对象中，<strong>但在ThreadLocalMap的实现中，key被保存到了WeakReference对象中</strong>。</p>
+<p>这就导致了一个问题，ThreadLocal在没有外部强引用时，发生GC时会被回收，如果创建ThreadLocal的线程一直持续运行，那么这个Entry对象中的value就<strong>有可能</strong>一直得不到回收，发生内存泄露。</p>
+<p><strong>解释：</strong>如果一个ThreadLocal对象被回收了，我们往里面放的value对于<strong>【当前线程-&gt;当前线程的threadLocals(ThreadLocal.ThreadLocalMap对象）-&gt;Entry数组-&gt;某个entry.value】</strong>这样一条强引用链是可达的，因此value不会被回收。</p>
+</li>
+<li><p>如何解决内存泄漏？</p>
+<p>当我们仔细读过ThreadLocalMap的源码，我们可以推断，如果在使用的ThreadLocal的过程中，显式地进行remove是个很好的编码习惯，这样是不会引起内存泄漏。<br><strong>那么如果没有显式地进行remove呢？</strong>只能说如果对应线程之后调用ThreadLocal的get和set方法都有<strong>很高的概率</strong>会顺便清理掉无效对象，断开value强引用，从而大对象被收集器回收。</p>
+<p>在调用ThreadLocal的get()、set()可能会清除ThreadLocalMap中key为null的Entry对象，这样对应的value就没有GC Roots可达了，下次GC的时候就可以被回收，当然如果调用remove方法，肯定会删除对应的Entry对象。</p>
+</li>
+<li><p>使用场景</p>
+<p>直接定位到 ThreadLocal 的源码，可以看到源码注释中有很清楚的解释：它是线程的局部变量，这些变量只能在这个线程内被读写，在其他线程内是无法访问的。</p>
+<p>ThreadLocal 定义的通常是与线程关联的私有静态字段（例如，用户ID或事务ID）。</p>
+<p>变量有局部的还有全局的，局部变量没什么好说的，一涉及到全局，那自然就会出现多线程的安全问题，要保证多线程安全访问，不出现脏读脏写，那就要涉及到线程同步了。而 ThreadLocal 相当于提供了介于局部变量与全局变量中间的这样一种线程内部的全局变量。</p>
+<p>总结了半天，发现使用场景说到底就概括成一个：就是当我们只想在本身的线程内使用的变量，可以用 ThreadLocal 来实现，并且这些变量是和线程的生命周期密切相关的，线程结束，变量也就销毁了。</p>
+<p>所以说 ThreadLocal 不是为了解决线程间的共享变量问题的，如果是多线程都需要访问的数据，那需要用全局变量加同步机制。</p>
+<p>举几个例子说明一下：</p>
+<p>1、比如线程中处理一个非常复杂的业务，可能方法有很多，那么，使用 ThreadLocal 可以代替一些参数的显式传递；</p>
+<p>2、比如用来存储用户 Session。Session 的特性很适合 ThreadLocal ，因为 Session 之前当前会话周期内有效，会话结束便销毁。我们先笼统但不正确的分析一次 web 请求的过程：</p>
+<ul>
+<li>用户在浏览器中访问 web 页面；</li>
+<li>浏览器向服务器发起请求；</li>
+<li>服务器上的服务处理程序（例如tomcat）接收请求，并开启一个线程处理请求，期间会使用到 Session ；</li>
+<li>最后服务器将请求结果返回给客户端浏览器。</li>
+</ul>
+<p>从这个简单的访问过程我们看到正好这个 Session 是在处理一个用户会话过程中产生并使用的，如果单纯的理解一个用户的一次会话对应服务端一个独立的处理线程，那用 ThreadLocal 在存储 Session ,简直是再合适不过了。但是例如 tomcat 这类的服务器软件都是采用了线程池技术的，并不是严格意义上的一个会话对应一个线程。并不是说这种情况就不适合 ThreadLocal 了，而是要在每次请求进来时先清理掉之前的 Session ，一般可以用拦截器、过滤器来实现。</p>
+<p>3、在一些多线程的情况下，如果用线程同步的方式，当并发比较高的时候会影响性能，可以改为 ThreadLocal 的方式，例如高性能序列化框架 Kyro 就要用 ThreadLocal 来保证高性能和线程安全；</p>
+<p>4、还有像线程内上线文管理器、数据库连接等可以用到 ThreadLocal;</p>
+</li>
+</ul>
+</li>
+<li></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>秉持初心，继续向前。</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="FoBoHuang 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="FoBoHuang 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔经面经/" rel="tag"># 笔经面经</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/java中的finalize-方法总结/" rel="next" title="java中的finalize()方法总结">
+                <i class="fa fa-chevron-left"></i> java中的finalize()方法总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/29/后端开发面经/" rel="prev" title="后端开发面经">
+                后端开发面经 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div onclick="showGitment()" id="gitment-display-button">显示 Gitment 评论</div>
+        <div id="gitment-container" style="display:none"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="FoBoHuang">
+            
+              <p class="site-author-name" itemprop="name">FoBoHuang</p>
+              <p class="site-description motion-element" itemprop="description">乌云后面依然是灿烂的晴天。——朗弗罗</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/FoBoHuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#提前批"><span class="nav-number">1.</span> <span class="nav-text">提前批</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#No-1"><span class="nav-number">1.1.</span> <span class="nav-text">No.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#No-2"><span class="nav-number">1.2.</span> <span class="nav-text">No.2</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FoBoHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+      <style>
+        a.gitment-editor-footer-tip { display: none; }
+        .gitment-container.gitment-footer-container { display: none; }
+      </style>
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'FoBoHuang',
+            repo: 'FoBoHuang-gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'a763f3599c9fb2007ef0bbca66d2b3c39333286b',
+            
+                client_id: 'c3e501c8c072f1bacaab'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      function showGitment(){
+        document.getElementById("gitment-display-button").style.display = "none";
+        document.getElementById("gitment-container").style.display = "block";
+        renderGitment();
+      }
+      
+      </script>
+    
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '9xUUTOHjWlX7WvJiKb5cmYmD-gzGzoHsz',
+        appKey: 'zxkH0ow2tgRPWt5u3hg96bIS',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
