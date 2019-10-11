@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://fobohuang.github.io/2019/04/25/你真的理解Spring-AOP吗/s2.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/04/25/你真的理解Spring-AOP吗/s3.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/04/25/你真的理解Spring-AOP吗/s4.png">
-<meta property="og:updated_time" content="2019-08-07T14:38:24.610Z">
+<meta property="og:updated_time" content="2019-09-30T13:48:54.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你真的理解Spring AOP吗">
 <meta name="twitter:description" content="概述为什么会有面向切面编程（AOP）？ 我们知道Java是一个面向对象(OOP)的语言，但它有一些弊端,比如当我们需要为多个不具有继承关系的对象引入一个公共行为，例如日志,权限验证,事务等功能时，只能在在每个对象里引用公共行为，这样做不便于维护，而且有大量重复代码。AOP的出现弥补了OOP的这点不足。 为了阐述清楚Spring AOP，我们从将以下方面进行讨论：  代理模式 静态代理原理及实践 动">
@@ -443,13 +443,17 @@
 <p>测试结果如下：</p>
 <p><img src="//FoBoHuang.github.io/2019/04/25/你真的理解Spring-AOP吗/s2.png" alt="s2"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IUserDao proxy = (IUserDao)<span class="keyword">new</span> ProxyFactory(target).getProxyInstance();</span><br></pre></td></tr></table></figure>
-<p>其实是 JDK 动态生成了一个类去实现接口，隐藏了这个过程：</p>
+<p><strong>其实是 JDK 动态生成了一个类去实现接口</strong>，隐藏了这个过程：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> $<span class="title">jdkProxy</span> <span class="keyword">implements</span> <span class="title">IUserDao</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p><strong>使用 JDK 生成的动态代理的前提是目标类必须有实现的接口</strong>。</p>
+</blockquote>
 <p>这里又引入一个问题，如果某个类没有实现接口，就不能使用 JDK 动态代理。所以 CGLIB 代理就是解决这个问题的。</p>
 <p><strong>CGLIB 是以动态生成的子类继承目标类的方式实现，在运行期动态的在内存中构建一个子类</strong>，如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDao</span></span>&#123;&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// CGLIB是以动态生成的子类继承目标类的方式实现,程序执行时,隐藏了下面的过程。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> $<span class="title">Cglib_Proxy_class</span>  <span class="keyword">extends</span> <span class="title">UserDao</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p><strong>CGLIB 使用的前提是目标类不能为 final 修饰，</strong>因为 final 修饰的类不能被继承。</p>
+</blockquote>
 <p>现在，我们可以看看 AOP 的定义：面向切面编程，核心原理是<strong>使用动态代理模式在方法执行前后或出现异常时加入相关逻辑</strong>。</p>
 <p>通过定义和前面代码我们可以发现3点：</p>
 <ul>

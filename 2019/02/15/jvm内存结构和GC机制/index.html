@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/15/jvm内存结构和GC机制/jvm6.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/15/jvm内存结构和GC机制/jvm5.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/15/jvm内存结构和GC机制/jvm7.png">
-<meta property="og:updated_time" content="2019-04-10T07:51:21.380Z">
+<meta property="og:updated_time" content="2019-09-30T13:45:01.641Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm内存结构和GC机制">
 <meta name="twitter:description" content="java内存区域，也称运行时数据区  线程私有：  程序计数器 虚拟机栈 本地方法栈  线程共享的：  堆 方法区   JVM会分配一个运行时内存空间。包括5大部分：程序计数器(Program Counter Register)、虚拟机栈(VM Stack)、本地方法栈(Native Method Stack)、方法区(Method Area)、堆(Heap)。线程私有的空间，会随着线程而生，随着">
@@ -470,7 +470,7 @@
 <p><img src="//FoBoHuang.github.io/2019/02/15/jvm内存结构和GC机制/jvm3.jpg" alt="jvm3"></p>
 </li>
 <li><p>方法区：<strong>方法区与 Java 堆一样，是各个线程共享的内存区域，它用于存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。虽然Java虚拟机规范把方法区描述为堆的一个逻辑部分，但是它却有一个别名叫做 Non-Heap（非堆），目的应该是与 Java 堆区分开来。</strong></p>
-<p>HotSpot 虚拟机中方法区也常被称为 <strong>“永久代”</strong>，本质上两者并不等价。仅仅是因为 HotSpot 虚拟机设计团队用永久代来实现方法区而已，这样 HotSpot 虚拟机的垃圾收集器就可以像管理 Java 堆一样管理这部分内存了。但是这并不是一个好主意，因为这样更容易遇到内存溢出问题。</p>
+<p><strong>HotSpot 虚拟机中方法区也常被称为 “永久代”</strong>，本质上两者并不等价。仅仅是因为 HotSpot 虚拟机设计团队用永久代来实现方法区而已，这样 HotSpot 虚拟机的垃圾收集器就可以像管理 Java 堆一样管理这部分内存了。但是这并不是一个好主意，因为这样更容易遇到内存溢出问题。</p>
 <p><strong>相对而言，垃圾收集行为在这个区域是比较少出现的，但并非数据进入方法区后就“永久存在”了。</strong></p>
 </li>
 <li><p>常量池：Java中有三种常量池，字符串常量池、class常量池、运行时常量池</p>

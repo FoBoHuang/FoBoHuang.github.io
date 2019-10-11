@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://fobohuang.github.io/2019/03/04/CAS算法/cas2.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/03/04/CAS算法/cas5.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/03/04/CAS算法/cas6.png">
-<meta property="og:updated_time" content="2019-04-27T09:43:48.789Z">
+<meta property="og:updated_time" content="2019-10-03T08:33:15.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CAS算法">
 <meta name="twitter:description" content="什么是CAS？Compare And Set（或Compare And Swap），CAS是解决多线程并行情况下使用锁造成性能损耗的一种机制，采用这种无锁的原子操作可以实现线程安全，避免加锁的笨重性。 JDK5增加了并发包java.util.concurrent.*，其下面的类使用CAS算法实现了区别于synchronized同步锁的一种乐观锁。 JDK5之前Java语言是靠synchronize">
@@ -453,13 +453,11 @@
 <p><img src="//FoBoHuang.github.io/2019/03/04/CAS算法/cas2.png" alt="cas2"></p>
 <p>这段代码是一个无限循环，也就是<strong>CAS的自旋</strong>，循环体中做了三件事：</p>
 <ol>
-<li><p>获取当前值</p>
-</li>
-<li><p>当前值+1，计算出目标值</p>
-</li>
-<li><p>进行CAS操作，如果成功则跳出循环，如果失败则重复上述步骤</p>
-</li>
+<li>获取当前值</li>
+<li>当前值+1，计算出目标值</li>
+<li>进行CAS操作，如果成功则跳出循环，如果失败则重复上述步骤</li>
 </ol>
+<p>Java 1.8中AtomicInteger.compareAndSet(int expect, int update)的实现源码：</p>
 <p><img src="//FoBoHuang.github.io/2019/03/04/CAS算法/cas5.png" alt="cas5"></p>
 <p>compareAndSet方法的实现很简单，只有一行代码。</p>
 <p>这里涉及到两个重要的对象，<strong>一个是unsafe，一个是valueOffset。</strong></p>

@@ -1089,13 +1089,11 @@
 <p><img src="//FoBoHuang.github.io/2019/03/04/CAS算法/cas2.png" alt="cas2"></p>
 <p>这段代码是一个无限循环，也就是<strong>CAS的自旋</strong>，循环体中做了三件事：</p>
 <ol>
-<li><p>获取当前值</p>
-</li>
-<li><p>当前值+1，计算出目标值</p>
-</li>
-<li><p>进行CAS操作，如果成功则跳出循环，如果失败则重复上述步骤</p>
-</li>
+<li>获取当前值</li>
+<li>当前值+1，计算出目标值</li>
+<li>进行CAS操作，如果成功则跳出循环，如果失败则重复上述步骤</li>
 </ol>
+<p>Java 1.8中AtomicInteger.compareAndSet(int expect, int update)的实现源码：</p>
 <p><img src="//FoBoHuang.github.io/2019/03/04/CAS算法/cas5.png" alt="cas5"></p>
 <p>compareAndSet方法的实现很简单，只有一行代码。</p>
 <p>这里涉及到两个重要的对象，<strong>一个是unsafe，一个是valueOffset。</strong></p>
