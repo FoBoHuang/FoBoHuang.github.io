@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql5.png">
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql7.jpg">
 <meta property="og:image" content="https://fobohuang.github.io/2019/02/24/Mysql常见面试题/mysql8.jpg">
-<meta property="og:updated_time" content="2019-09-27T15:45:40.513Z">
+<meta property="og:updated_time" content="2019-10-17T16:47:55.443Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql常见面试题">
 <meta name="twitter:description" content="数据库索引原理MyISAM和InnoDB索引的底层实现原理MyISAM 和 InnoDB 是MySQL的两代搜索引擎，区别在于，对于辅助索引的实现原理不一样，并且MyISAM是索引和文件分离的，而InnoDB不是。 一般以主键为索引的叫做主索引，而以其他键为索引的叫做辅助索引； MyISAM的实现原理，利用B+树实现：下面为主键索引：  由上图可以看出，col1是主键，而叶子结点存储的数据是一个地">
@@ -501,6 +501,14 @@
 <p>只有MyISAM引擎支持，并且支持的不好。可以忽略。</p>
 <p><strong>4. Full-text索引</strong></p>
 <p>主要用来查找文本中的关键字，而不是直接与索引中的值相比较。Full-text索引跟其它索引大不相同，它更像是一个搜索引擎，而不是简单的WHERE语句的参数匹配。<strong>你可以对某列分别进行full-text索引和B-Tree索引，两者互不冲突</strong>。Full-text索引<strong>配合MATCH AGAINST操作使用</strong>，而不是一般的WHERE语句加LIKE。</p>
+<blockquote>
+<p>索引的优点：</p>
+</blockquote>
+<ol>
+<li>减少了服务器需要扫描的数据行数。</li>
+<li>帮助服务器避免进行排序和创建临时表(B+Tree 索引是有序的，可以用来做 ORDER BY 和 GROUP BY 操作);</li>
+<li>将随机 I/O 变为顺序 I/O(B+Tree 索引是有序的，也就将相邻的数据都存储在一起)。</li>
+</ol>
 <p><strong>从数据结构的角度</strong></p>
 <ol>
 <li>B+树索引(O(logn))</li>

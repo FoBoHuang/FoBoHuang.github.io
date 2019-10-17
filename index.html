@@ -510,7 +510,7 @@
 </li>
 <li><p>假设有一张数据库表tableA，字段分别为(name,age,city)，使用SQL语言求每个城市的第二大年龄是多少。(数据库保证每个城市至少有两条记录以上)</p>
 <p>答：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> </span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 分组后并列排名：组内相同数值排名相同*/</span></span><br><span class="line"><span class="keyword">select</span> s.name,s.city,s.age,s.rank <span class="keyword">FROM</span></span><br><span class="line">(</span><br><span class="line"><span class="keyword">select</span> tablea.*,</span><br><span class="line"><span class="keyword">IF</span>(city = @last_city,</span><br><span class="line">	 <span class="keyword">CASE</span></span><br><span class="line">		<span class="keyword">WHEN</span> age = @last_age <span class="keyword">THEN</span> @<span class="keyword">rank</span></span><br><span class="line">		<span class="keyword">ELSE</span> @<span class="keyword">rank</span> := @<span class="keyword">rank</span>+<span class="number">1</span></span><br><span class="line">	 <span class="keyword">END</span>,</span><br><span class="line">   @<span class="keyword">rank</span> := <span class="number">1</span>) <span class="keyword">as</span> <span class="keyword">rank</span>,</span><br><span class="line">@last_city := city,</span><br><span class="line">@last_age := age</span><br><span class="line"><span class="keyword">from</span> tablea, (<span class="keyword">select</span> @last_city := <span class="string">''</span>, @last_age := <span class="string">''</span>, @<span class="keyword">rank</span> := <span class="number">0</span>) r</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> city,age <span class="keyword">desc</span></span><br><span class="line">)<span class="keyword">as</span> s <span class="keyword">where</span> s.rank = <span class="number">2</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>假设有一张数据库表tableA，字段分别为(name,age,city)，使用SQl语言求纽约中年龄最大的人的姓名。</p>
 <p>答：</p>
@@ -521,7 +521,7 @@
 <li><p>统计列印各科成绩，各分数段人数：课程ID，课程名</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> c.Cno,c.Cname,</span><br><span class="line">    <span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> s.score <span class="keyword">between</span> <span class="number">85</span> <span class="keyword">and</span> <span class="number">100</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>) <span class="keyword">as</span> <span class="string">'[100-85分]'</span>,</span><br><span class="line">    <span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> s.score <span class="keyword">between</span> <span class="number">70</span> <span class="keyword">and</span> <span class="number">85</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>) <span class="keyword">as</span> <span class="string">'[85-70分]'</span>,</span><br><span class="line">    <span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> s.score <span class="keyword">between</span> <span class="number">60</span> <span class="keyword">and</span> <span class="number">70</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>) <span class="keyword">as</span> <span class="string">'[70-60分]'</span>,</span><br><span class="line">    <span class="keyword">count</span>(<span class="keyword">case</span> <span class="keyword">when</span> s.score&lt;<span class="number">60</span> <span class="keyword">then</span> <span class="number">1</span> <span class="keyword">end</span>) <span class="keyword">as</span> <span class="string">'[60分以下]'</span> <span class="keyword">from</span> Course c, SC s <span class="keyword">where</span> c.Cno = s.Cno</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> c.Cno,c.Cname</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>查询两门以上不及格课程的同学的学号及其平均成绩、</p>
+<li><p>查询两门以上不及格课程的同学的学号及其平均成绩</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> Sno,<span class="keyword">avg</span>(score) <span class="keyword">from</span> SC <span class="keyword">where</span> Sno <span class="keyword">in</span> (</span><br><span class="line">	<span class="keyword">select</span> Sno </span><br><span class="line">	<span class="keyword">from</span> SC </span><br><span class="line">	<span class="keyword">where</span> score &lt; <span class="number">60</span> </span><br><span class="line">	<span class="keyword">group</span> <span class="keyword">by</span> Sno <span class="keyword">having</span> <span class="keyword">count</span>(*) &gt;= <span class="number">2</span></span><br><span class="line">) <span class="keyword">group</span> <span class="keyword">by</span> Sno</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -542,13 +542,15 @@
 </ul>
 </li>
 </ol>
-<h2 id="中信银行"><a href="#中信银行" class="headerlink" title="中信银行"></a>中信银行</h2><ol>
+<h2 id="中信银行信用卡"><a href="#中信银行信用卡" class="headerlink" title="中信银行信用卡"></a>中信银行信用卡</h2><ol>
 <li>Spring Boot和Spring MVC的区别？</li>
 <li>如果想引入一个jar包，如何在Spring MVC中配置xml文件？</li>
 <li>在数据库表中建立一个字段，只有一个字节的长度，用varchar还是char好？为什么？</li>
 <li>多线程实现的几种方式？</li>
 <li>线程的几种状态和切换的方式？</li>
 <li>Linux用过吗？了解哪些命令？</li>
+<li>一个http请求比较慢的时候，应该从哪些方面去排查并且优化？</li>
+<li>当并发请求较多时如何进行优化处理？</li>
 </ol>
 <h2 id="4399"><a href="#4399" class="headerlink" title="4399"></a>4399</h2><ol>
 <li><p>什么是守护线程，实现守护线程的基本流程和原理是什么？</p>
@@ -559,7 +561,7 @@
 </li>
 <li><p>redis数据存储在内存还是磁盘？</p>
 </li>
-<li><p>Nosql用过哪些</p>
+<li><p>Nosql用过哪些？</p>
 </li>
 <li><p>ConcurrentHashmap加锁体现在哪里？</p>
 </li>
@@ -639,7 +641,7 @@
 <li>一些存储引擎如MyISAM在内存中只缓存索引，数据则依赖于操作系统来缓存，因此要访问数据需要一次系统调用。这可能会导致严重的性能问题，尤其是那些系统调用占用了数据访问中的最大开销的场景。</li>
 <li>由于InnoDB的聚簇索引，覆盖索引对InnoDB特别有用。InnoDB的二级索引在叶子节点中保存了数据行的主键值，所以如果二级索引能够覆盖查询，则可以避免对主键索引的二次查询。</li>
 </ul>
-<h4 id="判断标准"><a href="#判断标准" class="headerlink" title="判断标准"></a>判断标准</h4><p>使用explain，可以通过输出的extra列来判断，对于一个索引覆盖查询，显示为<strong>using index</strong>,MySQL查询优化器在执行查询前会决定是否有索引覆盖查询</p>
+<h4 id="判断标准"><a href="#判断标准" class="headerlink" title="判断标准"></a>判断标准</h4><p>使用explain，可以通过输出的extra列来判断，对于一个索引覆盖查询，显示为<strong>using index</strong>,MySQL查询优化器在执行查询前会决定是否有索引覆盖查询。</p>
 </li>
 </ol>
 

@@ -2783,14 +2783,14 @@
 <h3 id="表测试数据："><a href="#表测试数据：" class="headerlink" title="表测试数据："></a>表测试数据：</h3><p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql1.png" alt="mysql1"></p>
 <h2 id="内连接-等值连接"><a href="#内连接-等值连接" class="headerlink" title="内连接(等值连接)"></a>内连接(等值连接)</h2><p>关键字：inner join on</p>
 <p>语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a inner join b_table bon a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a inner join b_table b on a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
 <p>执行结果：</p>
 <p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql2.png" alt="mysql2"></p>
 <p>说明：<strong>组合两个表中的记录，返回关联字段相符的记录，也就是返回两个表的交集（阴影）部分。</strong></p>
 <p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql3.png" alt="mysql3"></p>
 <h2 id="左连接"><a href="#左连接" class="headerlink" title="左连接"></a>左连接</h2><p>关键字：left join on / left outer join on</p>
 <p>语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a left join b_table bon a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from a_table a left join b_table b on a.a_id = b.b_id</span><br></pre></td></tr></table></figure>
 <p>执行结果：</p>
 <p><img src="//FoBoHuang.github.io/2019/03/18/Mysql内连接、外连接、全连接/mysql4.png" alt="mysql4"></p>
 <p>说明：</p>
